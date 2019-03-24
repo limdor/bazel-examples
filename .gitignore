@@ -1,2 +1,9 @@
 # Ignore all bazel symlinks
-/bazel-*
+**/bazel-*
+
+# Ignore files from Visual Studio Code
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
