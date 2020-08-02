@@ -1,20 +1,46 @@
+image:
+  - Visual Studio 2017
+  - Visual Studio 2019
+  - Ubuntu1804
+  - Ubuntu2004
+
 environment:
-  APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
-  VCVARSALLPATH: C:\"Program Files (x86)\Microsoft Visual Studio"\2017\Community\VC\Auxiliary\Build\vcvarsall.bat
   VCVARSALL: x64
   nodejs_version: "12.1.0"
   npm_version: "6.14.4"
-  GYP_MSVS_VERSION: 2017
   platform: "x64"
 
+for:
+-
+  matrix:
+    only:
+      - image: Visual Studio 2017
+  environment:
+    VCVARSALLPATH: C:\"Program Files (x86)\Microsoft Visual Studio"\2017\Community\VC\Auxiliary\Build\vcvarsall.bat
+    GYP_MSVS_VERSION: 2017
+-
+  matrix:
+    only:
+      - image: Visual Studio 2019
+  environment:
+    VCVARSALLPATH: C:\"Program Files (x86)\Microsoft Visual Studio"\2019\Community\VC\Auxiliary\Build\vcvarsall.bat
+    GYP_MSVS_VERSION: 2019
+
 init:
-  - call %VCVARSALLPATH% %VCVARSALL%
+  - cmd: call %VCVARSALLPATH% %VCVARSALL%
 
 install:
   - cmd: appveyor-retry powershell Install-Product node $env:nodejs_version x64
+  - sh: sudo apt install curl gnupg
+  - sh: curl -f https://bazel.build/bazel-release.pub.gpg | sudo apt-key add -
+  - sh: echo "deb [arch=amd64] https://storage.googleapis.com/bazel-apt stable jdk1.8" | sudo tee /etc/apt/sources.list.d/bazel.list
+  - sh: sudo apt update && sudo apt install bazel
 
 build_script:
   - cd third_party_dependencies
-  - npx @bazel/bazelisk version
-  - npx @bazel/bazelisk build //...
-  - npx @bazel/bazelisk test //...
+  - cmd: npx @bazel/bazelisk version
+  - cmd: npx @bazel/bazelisk build //...
+  - cmd: npx @bazel/bazelisk test //...
+  - sh: bazel version
+  - sh: bazel build //...
+  - sh: bazel test //...
