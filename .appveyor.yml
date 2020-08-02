@@ -1,11 +1,28 @@
+image:
+  - Visual Studio 2017
+  - Visual Studio 2019
+
 environment:
-  APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
-  VCVARSALLPATH: C:\"Program Files (x86)\Microsoft Visual Studio"\2017\Community\VC\Auxiliary\Build\vcvarsall.bat
   VCVARSALL: x64
   nodejs_version: "12.1.0"
   npm_version: "6.14.4"
-  GYP_MSVS_VERSION: 2017
   platform: "x64"
+
+for:
+-
+  matrix:
+    only:
+      - image: Visual Studio 2017
+  environment:
+    VCVARSALLPATH: C:\"Program Files (x86)\Microsoft Visual Studio"\2017\Community\VC\Auxiliary\Build\vcvarsall.bat
+    GYP_MSVS_VERSION: 2017
+-
+  matrix:
+    only:
+      - image: Visual Studio 2019
+  environment:
+    VCVARSALLPATH: C:\"Program Files (x86)\Microsoft Visual Studio"\2019\Community\VC\Auxiliary\Build\vcvarsall.bat
+    GYP_MSVS_VERSION: 2019
 
 init:
   - call %VCVARSALLPATH% %VCVARSALL%
