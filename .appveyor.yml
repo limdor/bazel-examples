@@ -1,6 +1,8 @@
 image:
   - Visual Studio 2017
   - Visual Studio 2019
+  - Ubuntu1804
+  - Ubuntu2004
 
 environment:
   VCVARSALL: x64
@@ -25,13 +27,20 @@ for:
     GYP_MSVS_VERSION: 2019
 
 init:
-  - call %VCVARSALLPATH% %VCVARSALL%
+  - cmd: call %VCVARSALLPATH% %VCVARSALL%
 
 install:
   - cmd: appveyor-retry powershell Install-Product node $env:nodejs_version x64
+  - sh: sudo apt install curl gnupg
+  - sh: curl -f https://bazel.build/bazel-release.pub.gpg | sudo apt-key add -
+  - sh: echo "deb [arch=amd64] https://storage.googleapis.com/bazel-apt stable jdk1.8" | sudo tee /etc/apt/sources.list.d/bazel.list
+  - sh: sudo apt update && sudo apt install bazel
 
 build_script:
   - cd third_party_dependencies
-  - npx @bazel/bazelisk version
-  - npx @bazel/bazelisk build //...
-  - npx @bazel/bazelisk test //...
+  - cmd: npx @bazel/bazelisk version
+  - cmd: npx @bazel/bazelisk build //...
+  - cmd: npx @bazel/bazelisk test //...
+  - sh: bazel version
+  - sh: bazel build //...
+  - sh: bazel test //...
