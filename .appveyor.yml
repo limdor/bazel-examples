@@ -38,6 +38,7 @@ install:
 
 build_script:
   - cd third_party_dependencies
+  - cmd: git version
   - cmd: npx @bazel/bazelisk version
   - cmd: npx @bazel/bazelisk build //...
   - cmd: npx @bazel/bazelisk test //...
