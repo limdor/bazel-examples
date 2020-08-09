@@ -1,0 +1,1 @@
+build --verbose_failures --record_rule_instantiation_callstack
