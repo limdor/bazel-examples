@@ -42,7 +42,14 @@ build_script:
   - cmd: npx @bazel/bazelisk version
   - cmd: npx @bazel/bazelisk build //...
   - cmd: npx @bazel/bazelisk test //...
-  - cmd: npx @bazel/bazelisk run //:buildifier
+  # Currently the buildifier integration in Windows does not work, probably we have something
+  # not properly setup. See: https://docs.bazel.build/versions/master/install-windows.html
+  # There are also some possible related issues reported for buildifier but we do not know yet
+  # if we are affected by them:
+  # https://github.com/bazelbuild/buildtools/issues/346
+  # https://github.com/bazelbuild/buildtools/issues/770
+  #
+  # - cmd: npx @bazel/bazelisk run //:buildifier
   - sh: bazel version
   - sh: bazel build //...
   - sh: bazel test //...
