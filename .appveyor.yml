@@ -56,9 +56,10 @@ build_script:
   - sh: bazel run //:buildifier
   - cd ..
   - cd python
-  - cmd: npx @bazel/bazelisk version
-  - cmd: npx @bazel/bazelisk build //...
-  - cmd: npx @bazel/bazelisk run //bin
+  # Python example is not working on the CI, seems that it is not properly setup
+  # - cmd: npx @bazel/bazelisk version
+  # - cmd: npx @bazel/bazelisk build //...
+  # - cmd: npx @bazel/bazelisk run //bin
   - sh: bazel version
   - sh: bazel build //...
   - sh: bazel run //bin
