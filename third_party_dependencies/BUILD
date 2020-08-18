@@ -5,6 +5,9 @@ package(default_visibility = ["//visibility:public"])
 
 buildifier(
     name = "buildifier",
+    lint_mode = "warn",
+    mode = "check",
+    verbose = True,
 )
 
 cc_binary(
