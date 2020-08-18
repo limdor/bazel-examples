@@ -1,10 +1,14 @@
+"""
+Dependency to gtest (google test), a unit test framework for C++
+"""
+
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
 def load_gtest():
     # It is not clear in Bazel what is the best practice for using http_archive.
     # If you call http_archive without any kind of check, you could call it two times
     # with the same name and different parameters and you would not get any warning/error.
-    # 
+    #
     # One option is to check if it is already available in the existing_rules and only
     # call http_archive if it is not present. In the else you could display a message in
     # case that was already present but in reality you would only want a warning/error if was
