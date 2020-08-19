@@ -5,6 +5,9 @@ package(default_visibility = ["//visibility:public"])
 
 buildifier(
     name = "buildifier",
+    lint_mode = "warn",
+    mode = "check",
+    verbose = True,
 )
 
 cc_binary(
@@ -23,8 +26,8 @@ cc_test(
     name = "catch2_test",
     srcs = ["catch2_test.cpp"],
     deps = [
-        "@catch2//:catch2",
         ":my_lib",
+        "@catch2",
     ],
 )
 
@@ -32,8 +35,8 @@ cc_test(
     name = "gtest_test",
     srcs = ["gtest_test.cpp"],
     deps = [
-        "@gtest//:gtest",
-        "@gtest//:gtest_main",
         ":my_lib",
+        "@gtest",
+        "@gtest//:gtest_main",
     ],
 )

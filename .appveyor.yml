@@ -1,8 +1,8 @@
 image:
-  - Visual Studio 2017
-  - Visual Studio 2019
   - Ubuntu1804
   - Ubuntu2004
+  - Visual Studio 2017
+  - Visual Studio 2019
 
 environment:
   VCVARSALL: x64
@@ -40,8 +40,6 @@ build_script:
   - cd third_party_dependencies
   - cmd: git version
   - cmd: npx @bazel/bazelisk version
-  - cmd: npx @bazel/bazelisk build //...
-  - cmd: npx @bazel/bazelisk test //...
   # Currently the buildifier integration in Windows does not work, probably we have something
   # not properly setup. See: https://docs.bazel.build/versions/master/install-windows.html
   # There are also some possible related issues reported for buildifier but we do not know yet
@@ -50,10 +48,12 @@ build_script:
   # https://github.com/bazelbuild/buildtools/issues/770
   #
   # - cmd: npx @bazel/bazelisk run //:buildifier
+  - cmd: npx @bazel/bazelisk build //...
+  - cmd: npx @bazel/bazelisk test //...
   - sh: bazel version
+  - sh: bazel run //:buildifier
   - sh: bazel build //...
   - sh: bazel test //...
-  - sh: bazel run //:buildifier
   - cd ..
   - cd python
   # Python example is not working on the CI, seems that it is not properly setup
