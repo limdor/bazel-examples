@@ -19,11 +19,11 @@ def load_transitive_dependencies():
     """Load all third party transitive dependencies"""
     load_buildtools_transitive_dependencies()
     load_catch2_transitive_dependencies()
-    load_gtest_transitive_dependencies()
-
-    # Here the order is still sensitive because you cannot load the transitive
-    # dependencies of a dependency if all its transitive dependencies have not been
-    # fully loaded
-    load_rules_go_transitive_dependencies()
     load_gazelle_transitive_dependencies()
+    load_gtest_transitive_dependencies()
     load_protobuf_transitive_dependencies()
+
+    # rules_go transitive dependencies have been already load when loading gazell
+    # transitive dependencies but we should be able to load them again because we cannot
+    # know that
+    load_rules_go_transitive_dependencies()
