@@ -2,6 +2,7 @@
 Dependency to protobuf, Google's data interchange format
 """
 
+load("@bazel_tools//tools/build_defs/repo:utils.bzl", "maybe")
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
 def load_protobuf():
@@ -14,14 +15,13 @@ def load_protobuf():
     # case that was already present but in reality you would only want a warning/error if was
     # already called with different parameters (different library version for example).
     #
-    # Another option would be to wrap the http_archive in a maybe call but as far as I am
-    # aware this would also not display a warning in case that is present but behave like the
-    # if check. (TODO: Try if maybe is better than "if check", if it is at least the same it
-    # should be prefered because you don't have to repeat the name)
-    if "com_google_protobuf" not in native.existing_rules():
-        http_archive(
-            name = "com_google_protobuf",
-            url = "https://github.com/protocolbuffers/protobuf/archive/v3.12.4.tar.gz",
-            sha256 = "512e5a674bf31f8b7928a64d8adf73ee67b8fe88339ad29adaa3b84dbaa570d8",
-            strip_prefix = "protobuf-3.12.4",
-        )
+    # Another option is to wrap the http_archive in a maybe call but this will also not display
+    # a warning. It behaves like the if check with the advantage that the name has not to be
+    # repeated
+    maybe(
+        http_archive,
+        name = "com_google_protobuf",
+        url = "https://github.com/protocolbuffers/protobuf/archive/v3.12.4.tar.gz",
+        sha256 = "512e5a674bf31f8b7928a64d8adf73ee67b8fe88339ad29adaa3b84dbaa570d8",
+        strip_prefix = "protobuf-3.12.4",
+    )

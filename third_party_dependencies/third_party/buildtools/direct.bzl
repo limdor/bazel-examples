@@ -2,6 +2,7 @@
 Dependency to bazel buildtools where buildifier is located
 """
 
+load("@bazel_tools//tools/build_defs/repo:utils.bzl", "maybe")
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
 def load_buildtools():
@@ -14,14 +15,13 @@ def load_buildtools():
     # case that was already present but in reality you would only want a warning/error if was
     # already called with different parameters (different library version for example).
     #
-    # Another option would be to wrap the http_archive in a maybe call but as far as I am
-    # aware this would also not display a warning in case that is present but behave like the
-    # if check. (TODO: Try if maybe is better than "if check", if it is at least the same it
-    # should be prefered because you don't have to repeat the name)
-    if "com_github_bazelbuild_buildtools" not in native.existing_rules():
-        http_archive(
-            name = "com_github_bazelbuild_buildtools",
-            url = "https://github.com/bazelbuild/buildtools/archive/3.4.0.tar.gz",
-            sha256 = "315dad13406928011b467ca7f2748a59ae817477f9129e1edaae75deb73e9b78",
-            strip_prefix = "buildtools-3.4.0",
-        )
+    # Another option is to wrap the http_archive in a maybe call but this will also not display
+    # a warning. It behaves like the if check with the advantage that the name has not to be
+    # repeated
+    maybe(
+        http_archive,
+        name = "com_github_bazelbuild_buildtools",
+        url = "https://github.com/bazelbuild/buildtools/archive/3.4.0.tar.gz",
+        sha256 = "315dad13406928011b467ca7f2748a59ae817477f9129e1edaae75deb73e9b78",
+        strip_prefix = "buildtools-3.4.0",
+    )
