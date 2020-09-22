@@ -64,3 +64,13 @@ build_script:
   - sh: bazel build //...
   - sh: bazel run //bin
   - cd ..
+  - cd cpp
+  - cmd: npx @bazel/bazelisk version
+  # - cmd: npx @bazel/bazelisk run //:buildifier
+  - cmd: npx @bazel/bazelisk build //...
+  - cmd: npx @bazel/bazelisk run //:hello_world
+  - sh: bazel version
+  - sh: bazel run //:buildifier
+  - sh: bazel build //...
+  - sh: bazel run //:hello_world
+  - cd ..
