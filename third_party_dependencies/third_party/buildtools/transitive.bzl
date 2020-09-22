@@ -2,7 +2,9 @@
 Transitive dependencies for buildtools
 """
 
+load("//third_party/rules_go:transitive.bzl", "load_rules_go_transitive_dependencies")
+
 def load_buildtools_transitive_dependencies():
-    # Leaving it empty allows that if at some point some transitive dependencies are needed
-    # they can be added without modifying transitive_dependencies.bzl
-    pass
+    # buildtools depends on rules_go, we need to load its transitive dependencies before loading
+    # the transitive dependencies of buildtools
+    load_rules_go_transitive_dependencies()
