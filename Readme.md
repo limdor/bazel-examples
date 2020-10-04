@@ -7,3 +7,4 @@ Several bazel examples that extend use cases present in the [official bazel exam
 List of examples:
 
 * [Bazel with third party dependencies](./third_party_dependencies/Readme.md)
+* [Basic C++ example with Bazel](./cpp/Readme.md)
