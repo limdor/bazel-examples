@@ -74,3 +74,4 @@ build_script:
   - sh: bazel build //...
   - sh: bazel run //:hello_world
   - cd ..
+
