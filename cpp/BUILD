@@ -23,9 +23,7 @@ cc_library(
 )
 
 cc_test(
-    name = "test",
-    srcs = ["catch2_test.cpp"],
-    deps = [
-        ":my_lib",
-    ],
+    name = "my_test",
+    srcs = ["test.cpp"],
+    deps = [":my_lib"],
 )
