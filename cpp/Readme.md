@@ -83,3 +83,31 @@ A test, compared to a binary executed with `bazel run` will not be allways execu
 ```bash
 //:my_test           (cached) PASSED in 0.0s
 ```
+
+If you want to build the executable without running it you call:
+
+```bash
+bazel build //:hello_world
+```
+
+And if you want to build only the library you can do the same with the target of the library:
+
+```bash
+bazel build //:my_lib
+```
+
+## Static vs Dynamic linking
+
+In this example we have one executable and one library. This brings us to two possibilities, to load the library during runtime (dynamic linking) or embed it into the executable (static linking).
+
+The way to control it in Bazel is using [`--dynamic_mode`](https://docs.bazel.build/versions/master/user-manual.html#flag--dynamic_mode). It has four options: `auto`, `default`, `fully` and `off`. The most relevant for us are `fully` and `off`.
+
+If we build the binary using `off` it will do static linking in all the cases that it is possible. Using `fully` it will do dynamic linking with all the targets.
+
+How to pass it to the command line would be as follows:
+
+```bash
+bazel build //:hello_world --dynamic_mode=off
+```
+
+You can also pass it when calling directly `bazel run`.
