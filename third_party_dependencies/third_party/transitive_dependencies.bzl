@@ -8,22 +8,12 @@ load the package with the version that we want, and then the third party library
 package.
 """
 
+load("//third_party/buildtools:transitive.bzl", "load_buildtools_transitive_dependencies")
 load("//third_party/catch2:transitive.bzl", "load_catch2_transitive_dependencies")
 load("//third_party/gtest:transitive.bzl", "load_gtest_transitive_dependencies")
-load("//third_party/rules_go:transitive.bzl", "load_rules_go_transitive_dependencies")
-load("//third_party/gazelle:transitive.bzl", "load_gazelle_transitive_dependencies")
-load("//third_party/protobuf:transitive.bzl", "load_protobuf_transitive_dependencies")
-load("//third_party/buildtools:transitive.bzl", "load_buildtools_transitive_dependencies")
 
 def load_transitive_dependencies():
-    """Load all third party transitive dependencies"""
+    """Load the transitive dependencies of only our direct dependencies"""
     load_buildtools_transitive_dependencies()
     load_catch2_transitive_dependencies()
-    load_gazelle_transitive_dependencies()
     load_gtest_transitive_dependencies()
-    load_protobuf_transitive_dependencies()
-
-    # rules_go transitive dependencies have been already load when loading gazell
-    # transitive dependencies but we should be able to load them again because we cannot
-    # know that
-    load_rules_go_transitive_dependencies()
