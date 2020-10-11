@@ -74,4 +74,15 @@ build_script:
   - sh: bazel build //...
   - sh: bazel run //:hello_world
   - cd ..
-
+  - cd cpp_coverage
+  - cmd: npx @bazel/bazelisk version
+  # - cmd: npx @bazel/bazelisk run //:buildifier
+  - cmd: npx @bazel/bazelisk build //...
+  - cmd: npx @bazel/bazelisk test //:foo_test
+  # - cmd: npx @bazel/bazelisk coverage //:foo_test
+  - sh: bazel version
+  - sh: bazel run //:buildifier
+  - sh: bazel build //...
+  - sh: bazel test //:foo_test
+  - sh: bazel coverage //:foo_test
+  - cd ..
