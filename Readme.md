@@ -6,6 +6,7 @@ Several bazel examples that extend use cases present in the [official bazel exam
 
 List of examples:
 
-* [Bazel with third party dependencies](./third_party_dependencies/Readme.md)
-* [Basic C++ example](./cpp/Readme.md)
-* [Basic code coverage computation for C++](./cpp_coverage/Readme.md)
+* [Bazel with third party dependencies](./third_party_dependencies/)
+* [Basic C++ example](./cpp/)
+* [Basic code coverage computation for C++](./cpp_coverage/)
+* [Basic Python example](./python/)
