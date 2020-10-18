@@ -1,6 +1,9 @@
 # Ignore all bazel symlinks
 **/bazel-*
 
+# Ignore Python cache
+**/__pycache__
+
 # Ignore files from Visual Studio Code
 .vscode/*
 !.vscode/settings.json
