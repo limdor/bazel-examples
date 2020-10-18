@@ -50,15 +50,22 @@ Let's see what we have:
 
 ![Initial coverage](./initial_coverage.png)
 
-In the generated html only the `foo` target appears, showing a line coverage of 80% but in reality is much lower because `main` and `bar` have not been considered.
+In the generated html only the `foo` target appears, showing a line coverage of 80% but in reality is much lower because `main` and `bar` have not been considered. Regarding the coverage measures we only see line coverage and function coverage.
 
-Let's summarize:
+Let's summarize per target:
 
 - [x] `foo` should appear
 - [ ] `bar` should appear
 - [ ] `main` should appear
 - [x] `foo_test` should not appear
 - [x] `catch2` should not appear
+
+And per feature:
+
+- [x] Line coverage
+- [x] Function coverage
+- [ ] Branch coverage
+- [ ] Condition coverage
 
 ## Related links
 
@@ -68,3 +75,4 @@ Let's summarize:
 
 * [#5716: Support baseline coverage (open)](https://github.com/bazelbuild/bazel/issues/5716)
 * [#8324: baseline_coverage.dat is not a valid lcov file (closed as duplicate of #5716)](https://github.com/bazelbuild/bazel/issues/8324)
+* [#12142: IncompatibleMergeException in branch coverage for C++ headers (open)](https://github.com/bazelbuild/bazel/issues/12142)
