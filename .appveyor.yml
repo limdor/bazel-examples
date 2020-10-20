@@ -6,8 +6,6 @@ image:
 
 environment:
   VCVARSALL: x64
-  nodejs_version: "12.1.0"
-  npm_version: "6.14.4"
   platform: "x64"
 
 for:
@@ -30,7 +28,7 @@ init:
   - cmd: call %VCVARSALLPATH% %VCVARSALL%
 
 install:
-  - cmd: appveyor-retry powershell Install-Product node $env:nodejs_version x64
+  - cmd: choco install bazelisk
   - sh: sudo apt install curl gnupg
   - sh: curl -f https://bazel.build/bazel-release.pub.gpg | sudo apt-key add -
   - sh: echo "deb [arch=amd64] https://storage.googleapis.com/bazel-apt stable jdk1.8" | sudo tee /etc/apt/sources.list.d/bazel.list
@@ -39,7 +37,7 @@ install:
 build_script:
   - cd third_party_dependencies
   - cmd: git version
-  - cmd: npx @bazel/bazelisk version
+  - cmd: bazelisk version
   # Currently the buildifier integration in Windows does not work, probably we have something
   # not properly setup. See: https://docs.bazel.build/versions/master/install-windows.html
   # There are also some possible related issues reported for buildifier but we do not know yet
@@ -47,9 +45,9 @@ build_script:
   # https://github.com/bazelbuild/buildtools/issues/346
   # https://github.com/bazelbuild/buildtools/issues/770
   #
-  # - cmd: npx @bazel/bazelisk run //:buildifier
-  - cmd: npx @bazel/bazelisk build //...
-  - cmd: npx @bazel/bazelisk test //...
+  # - cmd: bazelisk run //:buildifier
+  - cmd: bazelisk build //...
+  - cmd: bazelisk test //...
   - sh: bazel version
   - sh: bazel run //:buildifier
   - sh: bazel build //...
@@ -57,11 +55,11 @@ build_script:
   - cd ..
   - cd python
   # Python example is not working on the CI, seems that it is not properly setup
-  # - cmd: npx @bazel/bazelisk version
-  # - cmd: npx @bazel/bazelisk run //:buildifier
-  # - cmd: npx @bazel/bazelisk build //...
-  # - cmd: npx @bazel/bazelisk run //:bin
-  # - cmd: npx @bazel/bazelisk test //:test
+  # - cmd: bazelisk version
+  # - cmd: bazelisk run //:buildifier
+  # - cmd: bazelisk build //...
+  # - cmd: bazelisk run //:bin
+  # - cmd: bazelisk test //:test
   - sh: bazel version
   - sh: bazel run //:buildifier
   - sh: bazel build //...
@@ -69,21 +67,21 @@ build_script:
   - sh: bazel test //:test
   - cd ..
   - cd cpp
-  - cmd: npx @bazel/bazelisk version
-  # - cmd: npx @bazel/bazelisk run //:buildifier
-  - cmd: npx @bazel/bazelisk build //...
-  - cmd: npx @bazel/bazelisk run //:hello_world
+  - cmd: bazelisk version
+  # - cmd: bazelisk run //:buildifier
+  - cmd: bazelisk build //...
+  - cmd: bazelisk run //:hello_world
   - sh: bazel version
   - sh: bazel run //:buildifier
   - sh: bazel build //...
   - sh: bazel run //:hello_world
   - cd ..
   - cd cpp_coverage
-  - cmd: npx @bazel/bazelisk version
-  # - cmd: npx @bazel/bazelisk run //:buildifier
-  - cmd: npx @bazel/bazelisk build //...
-  - cmd: npx @bazel/bazelisk test //:foo_test
-  # - cmd: npx @bazel/bazelisk coverage //:foo_test
+  - cmd: bazelisk version
+  # - cmd: bazelisk run //:buildifier
+  - cmd: bazelisk build //...
+  - cmd: bazelisk test //:foo_test
+  # - cmd: bazelisk coverage //:foo_test
   - sh: bazel version
   - sh: bazel run //:buildifier
   - sh: bazel build //...
