@@ -5,7 +5,8 @@ image:
   - Visual Studio 2019
 
 environment:
-  USE_BAZEL_VERSION: 3.6.0
+  USE_BAZEL_VERSION: 3.7.0
+  BAZELISK_VERSION: 1.7.4
   VCVARSALL: x64
   platform: "x64"
 
@@ -13,10 +14,20 @@ for:
 -
   matrix:
     only:
+      - image: Ubuntu1804
+      - image: Ubuntu2004
+  environment:
+    BAZELISK_BINARY: bazelisk-linux-amd64
+    BAZEL_BINARY: bazel
+-
+  matrix:
+    only:
       - image: Visual Studio 2017
   environment:
     VCVARSALLPATH: C:\"Program Files (x86)\Microsoft Visual Studio"\2017\Community\VC\Auxiliary\Build\vcvarsall.bat
     GYP_MSVS_VERSION: 2017
+    BAZELISK_BINARY: bazelisk-windows-amd64.exe
+    BAZEL_BINARY: bazel.exe
 -
   matrix:
     only:
@@ -24,25 +35,25 @@ for:
   environment:
     VCVARSALLPATH: C:\"Program Files (x86)\Microsoft Visual Studio"\2019\Community\VC\Auxiliary\Build\vcvarsall.bat
     GYP_MSVS_VERSION: 2019
+    BAZELISK_BINARY: bazelisk-windows-amd64.exe
+    BAZEL_BINARY: bazel.exe
 
 init:
   - cmd: call %VCVARSALLPATH% %VCVARSALL%
 
 install:
   # Create a bin folder where bazelisk will be located and add it in the path
-  - ps: New-Item -Type dir .\bin
-  - sh: PATH=$HOME/bin:$PATH
-  - sh: mkdir $HOME/bin
-  - cmd: set PATH=C:\projects\bazel-examples\bin;%PATH%
-
+  - ps: New-Item -Type dir "$env:HOME\bin"
+  - ps: |
+      if ($isLinux) {
+        $env:PATH += ":$env:HOME/bin"
+      } else {
+        $Env:Path += ";$env:HOME/bin"
+      }
   # Download bazelisk from github
-  - ps: Invoke-Webrequest 'https://github.com/bazelbuild/bazelisk/releases/download/v1.7.4/bazelisk-windows-amd64.exe' -OutFile bazelisk-windows-amd64.exe
-  - sh: sudo apt install curl
-  - sh: curl -LO https://github.com/bazelbuild/bazelisk/releases/download/v1.7.4/bazelisk-linux-amd64
-
+  - ps: Invoke-Webrequest "https://github.com/bazelbuild/bazelisk/releases/download/v$env:BAZELISK_VERSION/$env:BAZELISK_BINARY" -OutFile "$env:BAZELISK_BINARY"
   # Renaming bazelisk to bazel is quite a common practice, people got used to run bazel build and not bazelisk build
-  - ps: Copy-Item -Path bazelisk-windows-amd64.exe -Destination .\bin\bazel.exe -Recurse
-  - sh: mv bazelisk-linux-amd64 $HOME/bin/bazel
+  - ps: Copy-Item -Path "$env:BAZELISK_BINARY" -Destination "$env:HOME\bin\$env:BAZEL_BINARY" -Recurse
   - sh: chmod +x $HOME/bin/bazel
 
 build_script:
@@ -84,6 +95,7 @@ build_script:
   - bazel build //...
   - bazel test //:foo_test
   # Bazel coverage is not supported on Windows
+  # https://github.com/bazelbuild/bazel/issues/6374
   # Because of this, we run it only on Linux
   - sh: bazel coverage //:foo_test
   - cd ..
