@@ -5,6 +5,8 @@ image:
   - Visual Studio 2019
 
 environment:
+  USE_BAZEL_VERSION: 3.7.0
+  BAZELISK_VERSION: 1.7.4
   VCVARSALL: x64
   platform: "x64"
 
@@ -12,10 +14,20 @@ for:
 -
   matrix:
     only:
+      - image: Ubuntu1804
+      - image: Ubuntu2004
+  environment:
+    BAZELISK_BINARY: bazelisk-linux-amd64
+    BAZEL_BINARY: bazel
+-
+  matrix:
+    only:
       - image: Visual Studio 2017
   environment:
     VCVARSALLPATH: C:\"Program Files (x86)\Microsoft Visual Studio"\2017\Community\VC\Auxiliary\Build\vcvarsall.bat
     GYP_MSVS_VERSION: 2017
+    BAZELISK_BINARY: bazelisk-windows-amd64.exe
+    BAZEL_BINARY: bazel.exe
 -
   matrix:
     only:
@@ -23,21 +35,31 @@ for:
   environment:
     VCVARSALLPATH: C:\"Program Files (x86)\Microsoft Visual Studio"\2019\Community\VC\Auxiliary\Build\vcvarsall.bat
     GYP_MSVS_VERSION: 2019
+    BAZELISK_BINARY: bazelisk-windows-amd64.exe
+    BAZEL_BINARY: bazel.exe
 
 init:
   - cmd: call %VCVARSALLPATH% %VCVARSALL%
 
 install:
-  - cmd: choco install bazelisk
-  - sh: sudo apt install curl gnupg
-  - sh: curl -f https://bazel.build/bazel-release.pub.gpg | sudo apt-key add -
-  - sh: echo "deb [arch=amd64] https://storage.googleapis.com/bazel-apt stable jdk1.8" | sudo tee /etc/apt/sources.list.d/bazel.list
-  - sh: sudo apt update && sudo apt install bazel
+  # Create a bin folder where bazelisk will be located and add it in the path
+  - ps: New-Item -Type dir "$env:HOME\bin"
+  - ps: |
+      if ($isLinux) {
+        $env:PATH += ":$env:HOME/bin"
+      } else {
+        $Env:Path += ";$env:HOME/bin"
+      }
+  # Download bazelisk from github
+  - ps: Invoke-Webrequest "https://github.com/bazelbuild/bazelisk/releases/download/v$env:BAZELISK_VERSION/$env:BAZELISK_BINARY" -OutFile "$env:BAZELISK_BINARY"
+  # Renaming bazelisk to bazel is quite a common practice, people got used to run bazel build and not bazelisk build
+  - ps: Copy-Item -Path "$env:BAZELISK_BINARY" -Destination "$env:HOME\bin\$env:BAZEL_BINARY" -Recurse
+  - sh: chmod +x $HOME/bin/bazel
 
 build_script:
   - cd third_party_dependencies
-  - cmd: git version
-  - cmd: bazelisk version
+  - git version
+  - bazel version
   # Currently the buildifier integration in Windows does not work, probably we have something
   # not properly setup. See: https://docs.bazel.build/versions/master/install-windows.html
   # There are also some possible related issues reported for buildifier but we do not know yet
@@ -45,21 +67,14 @@ build_script:
   # https://github.com/bazelbuild/buildtools/issues/346
   # https://github.com/bazelbuild/buildtools/issues/770
   #
-  # - cmd: bazelisk run //:buildifier
-  - cmd: bazelisk build //...
-  - cmd: bazelisk test //...
-  - sh: bazel version
+  # Because of this, we run it only on Linux
   - sh: bazel run //:buildifier
-  - sh: bazel build //...
-  - sh: bazel test //...
+  - bazel build //...
+  - bazel test //...
   - cd ..
   - cd python
-  # Python example is not working on the CI, seems that it is not properly setup
-  # - cmd: bazelisk version
-  # - cmd: bazelisk run //:buildifier
-  # - cmd: bazelisk build //...
-  # - cmd: bazelisk run //:bin
-  # - cmd: bazelisk test //:test
+  # Python example is not working on the CI for Windows, seems that it is not properly setup
+  # Because of this, we run it only on Linux
   - sh: bazel version
   - sh: bazel run //:buildifier
   - sh: bazel build //...
@@ -67,24 +82,20 @@ build_script:
   - sh: bazel test //:test
   - cd ..
   - cd cpp
-  - cmd: bazelisk version
-  # - cmd: bazelisk run //:buildifier
-  - cmd: bazelisk build //...
-  - cmd: bazelisk run //:hello_world
-  - sh: bazel version
+  - bazel version
+  # Like we mentioned above, we run buildifier only on Linux
   - sh: bazel run //:buildifier
-  - sh: bazel build //...
-  - sh: bazel run //:hello_world
+  - bazel build //...
+  - bazel run //:hello_world
   - cd ..
   - cd cpp_coverage
-  - cmd: bazelisk version
-  # - cmd: bazelisk run //:buildifier
-  - cmd: bazelisk build //...
-  - cmd: bazelisk test //:foo_test
-  # - cmd: bazelisk coverage //:foo_test
-  - sh: bazel version
+  - bazel version
+  # Like we mentioned above, we run buildifier only on Linux
   - sh: bazel run //:buildifier
-  - sh: bazel build //...
-  - sh: bazel test //:foo_test
+  - bazel build //...
+  - bazel test //:foo_test
+  # Bazel coverage is not supported on Windows
+  # https://github.com/bazelbuild/bazel/issues/6374
+  # Because of this, we run it only on Linux
   - sh: bazel coverage //:foo_test
   - cd ..
