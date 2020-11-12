@@ -99,3 +99,12 @@ build_script:
   # Because of this, we run it only on Linux
   - sh: bazel coverage //:foo_test
   - cd ..
+  - cd cpp_and_python
+  # Python example is not working on the CI for Windows, seems that it is not properly setup
+  # This example also use Python, because of this, we run it only on Linux
+  - sh: bazel version
+  - sh: bazel run //:buildifier
+  - sh: bazel build //...
+  - sh: bazel run //:hello_world_everyone
+  - sh: bazel run //:hello_world_code_dive
+  - cd ..
