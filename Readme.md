@@ -10,3 +10,4 @@ List of examples:
 * [Basic C++ example](./cpp/)
 * [Basic code coverage computation for C++](./cpp_coverage/)
 * [Basic Python example](./python/)
+* [Bazel Macros: Generate cpp files using Python](./cpp_and_python/)
