@@ -32,6 +32,8 @@ The measures used for coverage that we will focus and we want to obtain are:
 * Branch coverage
 * Condition coverage
 
+### Computing code coverage with Bazel
+
 The first command that intuitively we would execute is:
 
 ```bash
@@ -57,6 +59,79 @@ Let's summarize per target:
 - [x] `foo` should appear
 - [ ] `bar` should appear
 - [ ] `main` should appear
+- [x] `foo_test` should not appear
+- [x] `catch2` should not appear
+
+And per feature:
+
+- [x] Line coverage
+- [x] Function coverage
+- [ ] Branch coverage
+- [ ] Condition coverage
+
+As we can see in the related Bazel github issues, Bazel is not supporting baseline coverage and this is why the report is wrong. 
+
+### Workaround to get better results
+
+We can workaround the problem mentioned above doing the follow:
+
+First we clean the bazel-out to make sure that we do not have any previous coverage file:
+
+```bash
+bazel clean --expunge
+```
+
+Then we compile the target for what we want to know the coverage adding the additional `--collect_code_coverage` parameter:
+
+```bash
+bazel build //:main --collect_code_coverage
+```
+
+After that, we run lcov from the root of the workspace to generate the `coverage_baseline.dat`:
+
+```bash
+lcov -c --follow -i -d bazel-out/ -o coverage_baseline.dat
+```
+
+This command will search for the coverage files generated during the compilation and will aggregate the information into the `coverage_baseline.dat` file.
+
+Once we have the baseline coverage, we run the tests with `bazel coverage` to get the coverage information when running the tests:
+
+```bash
+bazel coverage //:foo_test
+```
+
+This will generate the `coverage.dat` file that we saw above.
+
+If you open in a file editor `coverage_baseline.dat` and `coverage.dat` you will see that the first one has `/proc/self/cwd/` pre appended in all the file paths. In order to be able to combine it with the file generated from `bazel coverage` need to unify the paths. We can do it with:
+
+```bash
+sed -i 's,/proc/self/cwd/,,g' coverage_baseline.dat
+```
+
+Now we can combine both files with the following command to get the final coverage file.
+
+```bash
+lcov -a coverage_baseline.dat -a bazel-testlogs/foo_test/coverage.dat -o final_coverage.dat
+```
+
+Like we did before we can now run `genhtml` to generate an html report.
+
+```bash
+genhtml --output-directory coverage-report final_coverage.dat
+```
+
+Let's see now what we get in the report:
+
+![Extended coverage](./extended_coverage.png)
+
+In the generated html `foo`, `bar` and `main` targets appear, showing a line coverage of 36.4%, much lower than before but now much more correct because `bar` and `main` targets are considered. Regarding the coverage measures we still only see line coverage and function coverage.
+
+Let's summarize per target:
+
+- [x] `foo` should appear
+- [x] `bar` should appear
+- [x] `main` should appear
 - [x] `foo_test` should not appear
 - [x] `catch2` should not appear
 
