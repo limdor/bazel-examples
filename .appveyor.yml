@@ -108,3 +108,11 @@ build_script:
   - sh: bazel run //:hello_world_everyone
   - sh: bazel run //:hello_world_code_dive
   - cd ..
+  - cd linux_toolchain
+  # Like the name of the example says, this in Linux only
+  - sh: bazel version
+  - sh: bazel run //:buildifier
+  - sh: bazel build //...
+  - sh: bazel build //... --platforms=//platform:linux_x64
+  - sh: bazel run //:hello_world
+  - cd ..

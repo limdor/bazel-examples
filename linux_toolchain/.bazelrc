@@ -1,0 +1,34 @@
+#############################
+## Terminal output options ##
+#############################
+
+# If a command fails, print out the full command line
+build --verbose_failures
+
+# Display the subcommands used to generate each target
+# Uncomment to see the effect, if you have it allways enabled it will increase quite a log the logs
+# build --subcommands=pretty_print
+
+#####################
+## Caching options ##
+#####################
+
+# Enable disk cache
+build --disk_cache=~/.bazel/disk_cache/
+
+#################################
+## Toolchain debugging options ##
+#################################
+
+# Verbose output to know what toolchains are selected
+# build --toolchain_resolution_debug
+
+###################################
+## Config options for toolchains ##
+###################################
+
+# Do not use automatically generated toolchains
+build --action_env=BAZEL_DO_NOT_DETECT_CPP_TOOLCHAIN=1
+
+# Do not use the deprecated toolchain resolution system with --cpu and --crosstool_top
+build --incompatible_enable_cc_toolchain_resolution
