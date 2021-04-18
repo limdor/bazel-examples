@@ -12,3 +12,4 @@ List of examples:
 * [Basic code coverage computation for C++](./cpp_coverage/)
 * [Basic Python example](./python/)
 * [Bazel Macros: Generate cpp files using Python](./cpp_and_python/)
+* [Explicitly declare autodetected C++ toolchain when compiling on Linux](./linux_toolchain/)
