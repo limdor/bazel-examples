@@ -21,7 +21,7 @@ build --disk_cache=~/.bazel/disk_cache/
 #################################
 
 # Verbose output to know what toolchains are selected
-# build --toolchain_resolution_debug
+build --toolchain_resolution_debug
 
 ###################################
 ## Config options for toolchains ##
