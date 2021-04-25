@@ -170,6 +170,9 @@ Last but not least, I would also recommend that you apply buildifier to the file
 
 Now you have an explicitly declared toolchain for Linux. The next step is to go over the files and understand them. Then you can adapt the toolchain to your needs, adding features or changing compiler flags. Once you understand them you will see that you can keep cleaning up and remove unneeded features.
 
+One of the next changes that is worth to mention, is the freezing of the compiler version. If you look at the default generated toolchain you will see that some of the tool paths are `/usr/bin/cpp`, `/usr/bin/gcc`, and `/usr/bin/gcov`.
+The problem of using this path, is that does not say anything about the version of the compiler to be used. If you have a single version install this will always be the same, but if you want to make sure that the version use is the one that you want, you should change the path for `/usr/bin/cpp-9`, `/usr/bin/gcc-9`, and `/usr/bin/gcov-9`.
+
 ## Related links
 
 * [Building with platforms](https://docs.bazel.build/versions/master/platforms-intro.html)
