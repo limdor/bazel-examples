@@ -15,3 +15,4 @@ List of examples:
 * [Basic Python example](./python/)
 * [Bazel Macros: Generate cpp files using Python](./cpp_and_python/)
 * [Explicitly declare autodetected C++ toolchain when compiling on Linux](./linux_toolchain/)
+* [Explicitly declare autodetected C++ toolchain when compiling on Windows](./windows_toolchain/)
