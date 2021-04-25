@@ -6,7 +6,7 @@ image:
 
 environment:
   USE_BAZEL_VERSION: 4.0.0
-  BAZELISK_VERSION: 1.7.4
+  BAZELISK_VERSION: 1.8.0
   VCVARSALL: x64
   platform: "x64"
 
