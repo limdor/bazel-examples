@@ -1,0 +1,50 @@
+---
+tasks:
+  cpp-linux:
+    name: "Basic C++ example"
+    platform: ubuntu1804
+    working_directory: cpp
+    build_targets:
+    - "..."
+  cpp-windows:
+    name: "Basic C++ example"
+    platform: windows
+    working_directory: cpp
+    build_targets:
+    - "..."
+  cpp-and-python-linux:
+    name: "Bazel Macros: Generate cpp files using Python"
+    platform: ubuntu1804
+    working_directory: cpp_and_python
+    build_targets:
+    - "..."
+  cpp-and-python-windows:
+    name: "Bazel Macros: Generate cpp files using Python"
+    platform: windows
+    working_directory: cpp_and_python
+    build_targets:
+    - "..."
+  python-linux:
+    name: "Basic Python example"
+    platform: ubuntu1804
+    working_directory: python
+    build_targets:
+    - "..."
+  python-windows:
+    name: "Basic Python example"
+    platform: windows
+    working_directory: python
+    build_targets:
+    - "..."
+  third-party-dependencies-linux:
+    name: "Bazel with third party dependencies"
+    platform: ubuntu1804
+    working_directory: third_party_dependencies
+    build_targets:
+    - "..."
+  third-party-dependencies-windows:
+    name: "Bazel with third party dependencies"
+    platform: windows
+    working_directory: third_party_dependencies
+    build_targets:
+    - "..."
