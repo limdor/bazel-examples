@@ -41,7 +41,11 @@ tasks:
     platform: ubuntu1804
     working_directory: third_party_dependencies
     build_targets:
-    - "..."
+    - "//..."
+    test_targets:
+    - "//..."
+    run_targets:
+    - "//:buildifier"
   third-party-dependencies-windows:
     name: "Bazel with third party dependencies"
     platform: windows
