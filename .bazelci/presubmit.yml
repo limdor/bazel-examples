@@ -1,8 +1,26 @@
 ---
 tasks:
-  cpp-linux:
+  cpp-ubuntu1804:
     name: "Basic C++ example"
     platform: ubuntu1804
+    working_directory: cpp
+    build_targets:
+    - "//..."
+    run_targets:
+    - "//:hello_world"
+    - "//:buildifier"
+  cpp-ubuntu2004:
+    name: "Basic C++ example"
+    platform: ubuntu2004
+    working_directory: cpp
+    build_targets:
+    - "//..."
+    run_targets:
+    - "//:hello_world"
+    - "//:buildifier"
+  cpp-macos:
+    name: "Basic C++ example"
+    platform: macos
     working_directory: cpp
     build_targets:
     - "//..."
@@ -20,9 +38,29 @@ tasks:
   # Running buildifier from the Bazel rule does not work on Windows
   # See https://github.com/bazelbuild/buildtools/issues/346 and https://github.com/bazelbuild/buildtools/issues/770
   #  - "//:buildifier"
-  cpp-and-python-linux:
+  cpp-and-python-ubuntu1804:
     name: "Bazel Macros: Generate cpp files using Python"
     platform: ubuntu1804
+    working_directory: cpp_and_python
+    build_targets:
+    - "//..."
+    run_targets:
+    - "//:hello_world_everyone"
+    - "//:hello_world_code_dive"
+    - "//:buildifier"
+  cpp-and-python-ubuntu2004:
+    name: "Bazel Macros: Generate cpp files using Python"
+    platform: ubuntu2004
+    working_directory: cpp_and_python
+    build_targets:
+    - "//..."
+    run_targets:
+    - "//:hello_world_everyone"
+    - "//:hello_world_code_dive"
+    - "//:buildifier"
+  cpp-and-python-macos:
+    name: "Bazel Macros: Generate cpp files using Python"
+    platform: macos
     working_directory: cpp_and_python
     build_targets:
     - "//..."
@@ -42,9 +80,31 @@ tasks:
   # Running buildifier from the Bazel rule does not work on Windows
   # See https://github.com/bazelbuild/buildtools/issues/346 and https://github.com/bazelbuild/buildtools/issues/770
   #  - "//:buildifier"
-  python-linux:
+  python-ubuntu1804:
     name: "Basic Python example"
     platform: ubuntu1804
+    working_directory: python
+    build_targets:
+    - "//..."
+    test_targets:
+    - "//:test"
+    run_targets:
+    - "//:bin"
+    - "//:buildifier"
+  python-ubuntu2004:
+    name: "Basic Python example"
+    platform: ubuntu2004
+    working_directory: python
+    build_targets:
+    - "//..."
+    test_targets:
+    - "//:test"
+    run_targets:
+    - "//:bin"
+    - "//:buildifier"
+  python-macos:
+    name: "Basic Python example"
+    platform: macos
     working_directory: python
     build_targets:
     - "//..."
@@ -66,9 +126,29 @@ tasks:
   # Running buildifier from the Bazel rule does not work on Windows
   # See https://github.com/bazelbuild/buildtools/issues/346 and https://github.com/bazelbuild/buildtools/issues/770
   #  - "//:buildifier"
-  third-party-dependencies-linux:
+  third-party-dependencies-ubuntu1804:
     name: "Bazel with third party dependencies"
     platform: ubuntu1804
+    working_directory: third_party_dependencies
+    build_targets:
+    - "//..."
+    test_targets:
+    - "//..."
+    run_targets:
+    - "//:buildifier"
+  third-party-dependencies-ubuntu2004:
+    name: "Bazel with third party dependencies"
+    platform: ubuntu2004
+    working_directory: third_party_dependencies
+    build_targets:
+    - "//..."
+    test_targets:
+    - "//..."
+    run_targets:
+    - "//:buildifier"
+  third-party-dependencies-macos:
+    name: "Bazel with third party dependencies"
+    platform: macos
     working_directory: third_party_dependencies
     build_targets:
     - "//..."
