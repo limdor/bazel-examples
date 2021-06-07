@@ -2,7 +2,7 @@
 
 | AppVeyor | Bazel CI |
 | :------: | :------: |
-| [![ci status](https://ci.appveyor.com/api/projects/status/7mr1q92rev7h02ca/branch/master?svg=true)](https://ci.appveyor.com/project/limdor/bazel-examples/branch/master) | [![ci status](https://badge.buildkite.com/3787c2c8d9e240573e30b06b5bfa5bd071110fd5fde45a8dd4.svg)](https://buildkite.com/bazel/limdor-bazel-examples) |
+| [![ci status](https://ci.appveyor.com/api/projects/status/7mr1q92rev7h02ca/branch/master?svg=true)](https://ci.appveyor.com/project/limdor/bazel-examples/branch/master) | [![ci status](https://badge.buildkite.com/3787c2c8d9e240573e30b06b5bfa5bd071110fd5fde45a8dd4.svg?branch=master)](https://buildkite.com/bazel/limdor-bazel-examples) |
 
 Bazel examples that extend use cases present in the [official bazel examples](https://github.com/bazelbuild/bazel/tree/master/examples).
 Some of these examples are explained also in the presentation [Introduction to Bazel to build C++ and Python](https://www.youtube.com/watch?v=vEQQ9QOVpdU).
