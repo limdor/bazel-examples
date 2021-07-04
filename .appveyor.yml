@@ -9,13 +9,6 @@ environment:
   BAZELISK_VERSION: 1.8.0
   VCVARSALL: x64
   platform: "x64"
-  matrix:
-    - project_name: cpp
-    - project_name: cpp_and_python
-    - project_name: cpp_coverage
-    - project_name: linux_toolchain
-    - project_name: python
-    - project_name: third_party_dependencies
 
 for:
 -
@@ -64,9 +57,5 @@ install:
   - sh: chmod +x $HOME/bin/bazel
 
 build_script:
-  - ps: Set-Location -Path (Join-Path (Get-Location).Path "$env:project_name")
-  - ps: |
-      Invoke-Expression -Command (Join-Path (Get-Location).Path "ci_execution.ps1")
-      if ($LASTEXITCODE -ne "0") {
-        Write-Error "ci_execution.ps1 failed" -ErrorAction Stop
-      }
+  - cmd: pwsh .\script.ps1
+  - sh: pwsh -File script.ps1

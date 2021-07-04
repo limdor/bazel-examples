@@ -1,3 +1,5 @@
+Set-StrictMode -Version latest
+$ErrorActionPreference = "Stop"
 Set-Location $PSScriptRoot
 if($IsWindows) {
     Write-Host "Skipping 'linux_toolchain' on Windows"

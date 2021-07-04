@@ -1,3 +1,5 @@
+Set-StrictMode -Version latest
+$ErrorActionPreference = "Stop"
 Set-Location $PSScriptRoot
 if($IsWindows) {
     Write-Host "Skipping 'cpp_and_python' example on Windows"

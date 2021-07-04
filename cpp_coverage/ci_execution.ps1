@@ -1,3 +1,5 @@
+Set-StrictMode -Version latest
+$ErrorActionPreference = "Stop"
 Set-Location $PSScriptRoot
 bazel version
 if($IsWindows) {
