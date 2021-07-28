@@ -106,7 +106,7 @@ And now we are ready for the last step, that is to inform Bazel that the toolcha
 
 ```bash
 register_toolchains(
-    "//toolchain:my_linux_toolchain",
+    "//toolchain:my_windows_toolchain",
 )
 ```
 
