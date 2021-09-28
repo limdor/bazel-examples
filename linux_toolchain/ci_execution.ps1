@@ -2,13 +2,9 @@ Set-StrictMode -Version latest
 $ErrorActionPreference = "Stop"
 $PSNativeCommandUseErrorActionPreference = $true
 Set-Location $PSScriptRoot
-if($IsWindows) {
-    Write-Host "Skipping 'linux_toolchain' on Windows"
-    Write-Host "Like the name of the example says, this in Linux only"
-} else {
-    bazel version
-    bazel run //:buildifier
-    bazel build //...
-    bazel build //... --platforms=//platform:linux_x64
-    bazel run //:hello_world
-}
+Get-ChildItem env:
+bazel build //:hello_world --subcommands=pretty_print
+whereis gcc-12
+whereis gcc
+ls -ld /usr/bin/*gcc* /bin/*gcc* /home/appveyor/bin/*
+ls -ld /usr/bin/*ld* /bin/*ld* /home/appveyor/bin/*
