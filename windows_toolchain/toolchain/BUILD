@@ -54,7 +54,7 @@ cc_toolchain(
 )
 
 _BUILD_TOOLS_INSTALL_PATH = "C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\"
-_MSVC_VERSION = "14.29.30037"
+_MSVC_VERSION = "14.29.30133"
 _WINDOWS_10_SDK_VERSION = "10.0.19041.0"
 _MSVC_INSTALL_PATH = "{}VC\\Tools\\MSVC\\{}\\".format(_BUILD_TOOLS_INSTALL_PATH, _MSVC_VERSION)
 
