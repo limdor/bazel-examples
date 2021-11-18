@@ -25,6 +25,26 @@ tasks:
     platform: ubuntu2004
     <<: *cpp_common
     <<: *cpp_unix_run_targets
+  cpp-ubuntu2104:
+    platform: ubuntu2104
+    <<: *cpp_common
+    <<: *cpp_unix_run_targets
+  cpp-ubuntu2110:
+    platform: ubuntu2110
+    <<: *cpp_common
+    <<: *cpp_unix_run_targets
+  cpp-centos7:
+    platform: centos7
+    <<: *cpp_common
+    <<: *cpp_unix_run_targets
+  cpp-debian10:
+    platform: debian10
+    <<: *cpp_common
+    <<: *cpp_unix_run_targets
+  cpp-debian11:
+    platform: debian11
+    <<: *cpp_common
+    <<: *cpp_unix_run_targets
   cpp-macos:
     platform: macos
     <<: *cpp_common
