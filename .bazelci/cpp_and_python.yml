@@ -1,0 +1,37 @@
+cpp_and_python_common: &cpp_and_python_common
+  name: "Bazel Macros: Generate cpp files using Python"
+  working_directory: .
+  build_targets:
+  - "//..."
+
+cpp_and_python_windows_run_targets: &cpp_and_python_windows_run_targets
+  run_targets:
+  - "//:hello_world_everyone"
+  - "//:hello_world_code_dive"
+  # Running buildifier from the Bazel rule does not work on Windows
+  # See https://github.com/bazelbuild/buildtools/issues/346 and https://github.com/bazelbuild/buildtools/issues/770
+  # - "//:buildifier"
+
+cpp_and_python_unix_run_targets: &cpp_and_python_unix_run_targets
+  run_targets:
+  - "//:hello_world_everyone"
+  - "//:hello_world_code_dive"
+  - "//:buildifier"
+
+tasks:
+  cpp-and-python-ubuntu1804:
+    platform: ubuntu1804
+    <<: *cpp_and_python_common
+    <<: *cpp_and_python_unix_run_targets
+  cpp-and-python-ubuntu2004:
+    platform: ubuntu2004
+    <<: *cpp_and_python_common
+    <<: *cpp_and_python_unix_run_targets
+  cpp-and-python-macos:
+    platform: macos
+    <<: *cpp_and_python_common
+    <<: *cpp_and_python_unix_run_targets
+  cpp-and-python-windows:
+    platform: windows
+    <<: *cpp_and_python_common
+    <<: *cpp_and_python_windows_run_targets
