@@ -27,6 +27,26 @@ tasks:
     platform: ubuntu2004
     <<: *cpp_and_python_common
     <<: *cpp_and_python_unix_run_targets
+  cpp-and-python-ubuntu2104:
+    platform: ubuntu2104
+    <<: *cpp_and_python_common
+    <<: *cpp_and_python_unix_run_targets
+  cpp-and-python-ubuntu2110:
+    platform: ubuntu2110
+    <<: *cpp_and_python_common
+    <<: *cpp_and_python_unix_run_targets
+  cpp-and-python-centos7:
+    platform: centos7
+    <<: *cpp_and_python_common
+    <<: *cpp_and_python_unix_run_targets
+  cpp-and-python-debian10:
+    platform: debian10
+    <<: *cpp_and_python_common
+    <<: *cpp_and_python_unix_run_targets
+  cpp-and-python-debian11:
+    platform: debian11
+    <<: *cpp_and_python_common
+    <<: *cpp_and_python_unix_run_targets
   cpp-and-python-macos:
     platform: macos
     <<: *cpp_and_python_common
