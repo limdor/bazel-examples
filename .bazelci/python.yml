@@ -1,0 +1,57 @@
+python_common: &python_common
+  name: "Basic Python example"
+  working_directory: .
+  build_targets:
+  - "//..."
+  test_targets:
+  - "//:test"
+
+python_windows_run_targets: &python_windows_run_targets
+  run_targets:
+  - "//:bin"
+  # Running buildifier from the Bazel rule does not work on Windows
+  # See https://github.com/bazelbuild/buildtools/issues/346 and https://github.com/bazelbuild/buildtools/issues/770
+  #  - "//:buildifier"
+
+python_unix_run_targets: &python_unix_run_targets
+  run_targets:
+  - "//:bin"
+  - "//:buildifier"
+
+tasks:
+  python-ubuntu1804:
+    platform: ubuntu1804
+    <<: *python_common
+    <<: *python_unix_run_targets
+  python-ubuntu2004:
+    platform: ubuntu2004
+    <<: *python_common
+    <<: *python_unix_run_targets
+  python-ubuntu2104:
+    platform: ubuntu2104
+    <<: *python_common
+    <<: *python_unix_run_targets
+  python-ubuntu2110:
+    platform: ubuntu2110
+    <<: *python_common
+    <<: *python_unix_run_targets
+  python-centos7:
+    platform: centos7
+    <<: *python_common
+    <<: *python_unix_run_targets
+  python-debian10:
+    platform: debian10
+    <<: *python_common
+    <<: *python_unix_run_targets
+  python-debian11:
+    platform: debian11
+    <<: *python_common
+    <<: *python_unix_run_targets
+  python-macos:
+    platform: macos
+    <<: *python_common
+    <<: *python_unix_run_targets
+  python-windows:
+    platform: windows
+    <<: *python_common
+    <<: *python_windows_run_targets

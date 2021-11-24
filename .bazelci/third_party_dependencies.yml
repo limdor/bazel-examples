@@ -1,0 +1,36 @@
+third_party_dependencies_common: &third_party_dependencies_common
+  name: "Bazel with third party dependencies"
+  working_directory: .
+  build_targets:
+  - "//..."
+  test_targets:
+  - "//..."
+
+third_party_dependencies_windows_run_targets: &third_party_dependencies_windows_run_targets
+  # Running buildifier from the Bazel rule does not work on Windows
+  # See https://github.com/bazelbuild/buildtools/issues/346 and https://github.com/bazelbuild/buildtools/issues/770
+  #  run_targets:
+  #  - "//:buildifier"
+
+third_party_dependencies_unix_run_targets: &third_party_dependencies_unix_run_targets
+  run_targets:
+  - "//:buildifier"
+
+tasks:
+  third-party-dependencies-ubuntu1804:
+    platform: ubuntu1804
+    <<: *third_party_dependencies_common
+    <<: *third_party_dependencies_unix_run_targets
+  third-party-dependencies-ubuntu2004:
+    platform: ubuntu2004
+    <<: *third_party_dependencies_common
+    <<: *third_party_dependencies_unix_run_targets
+  third-party-dependencies-macos:
+    platform: macos
+    <<: *third_party_dependencies_common
+    <<: *third_party_dependencies_unix_run_targets
+  third-party-dependencies-windows:
+    platform: windows
+    <<: *third_party_dependencies_common
+    # No target to run, the only one would be buildifier that does not run on Windows
+    # <<: *third_party_dependencies_windows_run_targets

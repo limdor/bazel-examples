@@ -1,0 +1,55 @@
+cpp_common: &cpp_common
+  name: "Basic C++ example"
+  working_directory: .
+  build_targets:
+  - "//..."
+
+cpp_windows_run_targets: &cpp_windows_run_targets
+  run_targets:
+  - "//:hello_world"
+  # Running buildifier from the Bazel rule does not work on Windows
+  # See https://github.com/bazelbuild/buildtools/issues/346 and https://github.com/bazelbuild/buildtools/issues/770
+  # - "//:buildifier"
+
+cpp_unix_run_targets: &cpp_unix_run_targets
+  run_targets:
+  - "//:hello_world"
+  - "//:buildifier"
+
+tasks:
+  cpp-ubuntu1804:
+    platform: ubuntu1804
+    <<: *cpp_common
+    <<: *cpp_unix_run_targets
+  cpp-ubuntu2004:
+    platform: ubuntu2004
+    <<: *cpp_common
+    <<: *cpp_unix_run_targets
+  cpp-ubuntu2104:
+    platform: ubuntu2104
+    <<: *cpp_common
+    <<: *cpp_unix_run_targets
+  cpp-ubuntu2110:
+    platform: ubuntu2110
+    <<: *cpp_common
+    <<: *cpp_unix_run_targets
+  cpp-centos7:
+    platform: centos7
+    <<: *cpp_common
+    <<: *cpp_unix_run_targets
+  cpp-debian10:
+    platform: debian10
+    <<: *cpp_common
+    <<: *cpp_unix_run_targets
+  cpp-debian11:
+    platform: debian11
+    <<: *cpp_common
+    <<: *cpp_unix_run_targets
+  cpp-macos:
+    platform: macos
+    <<: *cpp_common
+    <<: *cpp_unix_run_targets
+  cpp-windows:
+    platform: windows
+    <<: *cpp_common
+    <<: *cpp_windows_run_targets
