@@ -25,6 +25,26 @@ tasks:
     platform: ubuntu2004
     <<: *third_party_dependencies_common
     <<: *third_party_dependencies_unix_run_targets
+  third-party-dependencies-ubuntu2104:
+    platform: ubuntu2104
+    <<: *third_party_dependencies_common
+    <<: *third_party_dependencies_unix_run_targets
+  third-party-dependencies-ubuntu2110:
+    platform: ubuntu2110
+    <<: *third_party_dependencies_common
+    <<: *third_party_dependencies_unix_run_targets
+  third-party-dependencies-centos7:
+    platform: centos7
+    <<: *third_party_dependencies_common
+    <<: *third_party_dependencies_unix_run_targets
+  third-party-dependencies-debian10:
+    platform: debian10
+    <<: *third_party_dependencies_common
+    <<: *third_party_dependencies_unix_run_targets
+  third-party-dependencies-debian11:
+    platform: debian11
+    <<: *third_party_dependencies_common
+    <<: *third_party_dependencies_unix_run_targets
   third-party-dependencies-macos:
     platform: macos
     <<: *third_party_dependencies_common
