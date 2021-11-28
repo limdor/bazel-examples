@@ -1,5 +1,6 @@
 imports:
 - cpp.yml
 - cpp_and_python.yml
+- cpp_coverage.yml
 - python.yml
 - third_party_dependencies.yml
