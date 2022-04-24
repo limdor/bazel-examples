@@ -5,8 +5,8 @@ image:
   - Visual Studio 2019
 
 environment:
-  USE_BAZEL_VERSION: 4.2.1
-  BAZELISK_VERSION: 1.10.1
+  USE_BAZEL_VERSION: 5.1.1
+  BAZELISK_VERSION: 1.11.0
   VCVARSALL: x64
   platform: "x64"
 
