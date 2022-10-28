@@ -27,12 +27,8 @@ tasks:
     platform: ubuntu2004
     <<: *python_common
     <<: *python_unix_run_targets
-  python-ubuntu2104:
-    platform: ubuntu2104
-    <<: *python_common
-    <<: *python_unix_run_targets
-  python-ubuntu2110:
-    platform: ubuntu2110
+  python-ubuntu2204:
+    platform: ubuntu2204
     <<: *python_common
     <<: *python_unix_run_targets
   python-centos7:

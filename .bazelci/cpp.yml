@@ -25,12 +25,8 @@ tasks:
     platform: ubuntu2004
     <<: *cpp_common
     <<: *cpp_unix_run_targets
-  cpp-ubuntu2104:
-    platform: ubuntu2104
-    <<: *cpp_common
-    <<: *cpp_unix_run_targets
-  cpp-ubuntu2110:
-    platform: ubuntu2110
+  cpp-ubuntu2204:
+    platform: ubuntu2204
     <<: *cpp_common
     <<: *cpp_unix_run_targets
   cpp-centos7:
