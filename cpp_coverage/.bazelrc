@@ -14,4 +14,8 @@ build --verbose_failures
 #####################
 
 # Enable disk cache
-build --disk_cache=~/.bazel/disk_cache/
+# build --disk_cache=~/.bazel/disk_cache/
+
+coverage --instrument_test_targets
+coverage --coverage_report_generator=@bazel_tools//tools/test/CoverageOutputGenerator/java/com/google/devtools/coverageoutputgenerator:Main
+coverage --combined_report=lcov
