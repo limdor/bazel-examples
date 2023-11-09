@@ -38,4 +38,5 @@ cc_test(
         ":foo",
         "@catch2",
     ],
+    tags = ["unit"],
 )
