@@ -23,3 +23,9 @@ coverage --combined_report=lcov
 coverage --test_tag_filters=unit
 coverage --nobuild_tests_only
 coverage -c dbg
+
+coverage --instrumentation_filter="[/:]"
+coverage --test_env=COVERAGE_GCOV_OPTIONS=-bcu
+coverage --nocache_test_results
+
+coverage --copt=-std=c++14
