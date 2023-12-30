@@ -33,7 +33,7 @@ for:
     only:
       - image: Visual Studio 2022
   environment:
-    VCVARSALLPATH: C:\"Program Files (x86)\Microsoft Visual Studio"\2022\Community\VC\Auxiliary\Build\vcvarsall.bat
+    VCVARSALLPATH: C:\"Program Files\Microsoft Visual Studio"\2022\Community\VC\Auxiliary\Build\vcvarsall.bat
     GYP_MSVS_VERSION: 2022
     BAZELISK_BINARY: bazelisk-windows-amd64.exe
     BAZEL_BINARY: bazel.exe
