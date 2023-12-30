@@ -1,5 +1,6 @@
 Set-StrictMode -Version latest
 $ErrorActionPreference = "Stop"
+$PSNativeCommandUseErrorActionPreference = $true
 Set-Location $PSScriptRoot
 # In case Appveyor decides to update the Visual Studio installation this will help to figure out the new version
 # Get-ChildItem env:

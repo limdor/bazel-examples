@@ -1,5 +1,6 @@
 Set-StrictMode -Version latest
 $ErrorActionPreference = "Stop"
+$PSNativeCommandUseErrorActionPreference = $true
 Set-Location $PSScriptRoot
 if($IsWindows) {
     Write-Host "Skipping 'python' example on Windows"
