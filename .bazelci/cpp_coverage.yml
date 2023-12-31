@@ -30,7 +30,7 @@ tasks:
     <<: *cpp_coverage_common
     <<: *cpp_coverage_unix_run_targets
   cpp-centos7:
-    platform: centos7
+    platform: centos7_java11_devtoolset10
     <<: *cpp_coverage_common
     <<: *cpp_coverage_unix_run_targets
   cpp-debian10:

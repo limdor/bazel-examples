@@ -32,7 +32,7 @@ tasks:
     <<: *cpp_and_python_common
     <<: *cpp_and_python_unix_run_targets
   cpp-and-python-centos7:
-    platform: centos7
+    platform: centos7_java11_devtoolset10
     <<: *cpp_and_python_common
     <<: *cpp_and_python_unix_run_targets
   cpp-and-python-debian10:
