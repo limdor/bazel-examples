@@ -30,7 +30,7 @@ tasks:
     <<: *third_party_dependencies_common
     <<: *third_party_dependencies_unix_run_targets
   third-party-dependencies-centos7:
-    platform: centos7
+    platform: centos7_java11_devtoolset10
     <<: *third_party_dependencies_common
     <<: *third_party_dependencies_unix_run_targets
   third-party-dependencies-debian10:

@@ -32,7 +32,7 @@ tasks:
     <<: *python_common
     <<: *python_unix_run_targets
   python-centos7:
-    platform: centos7
+    platform: centos7_java11_devtoolset10
     <<: *python_common
     <<: *python_unix_run_targets
   python-debian10:
