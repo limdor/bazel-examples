@@ -1,3 +1,4 @@
+#Requires –Version 7.4
 Set-StrictMode -Version latest
 $ErrorActionPreference = "Stop"
 $PSNativeCommandUseErrorActionPreference = $true
