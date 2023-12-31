@@ -14,8 +14,8 @@
 
 # This becomes the BUILD file for @local_config_cc// under Windows.
 load("@rules_cc//cc:defs.bzl", "cc_toolchain")
-load(":windows_cc_toolchain_config.bzl", "cc_toolchain_config")
 load(":utils.bzl", "semicolon_separated")
+load(":windows_cc_toolchain_config.bzl", "cc_toolchain_config")
 
 package(default_visibility = ["//visibility:public"])
 

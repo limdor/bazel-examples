@@ -1,5 +1,5 @@
-load("@rules_python//python:defs.bzl", "py_binary", "py_library", "py_test")
 load("@com_github_bazelbuild_buildtools//buildifier:def.bzl", "buildifier")
+load("@rules_python//python:defs.bzl", "py_binary", "py_library", "py_test")
 
 buildifier(
     name = "buildifier",
