@@ -1,5 +1,5 @@
-load("@rules_cc//cc:defs.bzl", "cc_binary")
 load("@com_github_bazelbuild_buildtools//buildifier:def.bzl", "buildifier")
+load("@rules_cc//cc:defs.bzl", "cc_binary")
 load("//hello_world:generator.bzl", "hello_world")
 
 buildifier(

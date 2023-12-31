@@ -14,8 +14,8 @@
 
 # This becomes the BUILD file for @local_config_cc// under non-BSD unixes.
 
-load(":cc_toolchain_config.bzl", "cc_toolchain_config")
 load("@rules_cc//cc:defs.bzl", "cc_library", "cc_toolchain")
+load(":cc_toolchain_config.bzl", "cc_toolchain_config")
 
 package(default_visibility = ["//visibility:public"])
 
