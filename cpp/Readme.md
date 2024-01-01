@@ -100,7 +100,7 @@ bazel build //:my_lib
 
 In this example we have one executable and one library. This brings us to two possibilities, to load the library during runtime (dynamic linking) or embed it into the executable (static linking).
 
-The way to control it in Bazel is using [`--dynamic_mode`](https://docs.bazel.build/versions/master/user-manual.html#flag--dynamic_mode). It has four options: `auto`, `default`, `fully` and `off`. The most relevant for us are `fully` and `off`.
+The way to control it in Bazel is using [`--dynamic_mode`](https://bazel.build/docs/user-manual#dynamic-mode). It has three options: `default`, `fully` and `off`. The most relevant for us are `fully` and `off`.
 
 If we build the binary using `off` it will do static linking in all the cases that it is possible. Using `fully` it will do dynamic linking with all the targets.
 
@@ -111,3 +111,7 @@ bazel build //:hello_world --dynamic_mode=off
 ```
 
 You can also pass it when calling directly `bazel run`.
+
+## Related Bazel github issues
+
+* [#20707: [bazel.build] Problem with /docs/user-manual (open)](https://github.com/bazelbuild/bazel/issues/20707)
