@@ -1,14 +1,14 @@
-#include "foo.h"
+#include <unordered_map>
+#include <iostream>
 
-namespace foo
-{
-    int foo(int x, int y)
-    {
-        int z = 0;
-        if ((x > 0) && (y > 0))
-        {
-            z = x;
-        }
-        return z;
-    }
-} // namespace foo
+
+int main(){
+	static std::unordered_map<int, int>new_map = {{}};
+	int var = 0;
+	if (var == 1) {
+		std::cout << "Hi" << std::endl;
+	}
+	else {
+		std::cout << "Hi" << std::endl;
+	}
+}
