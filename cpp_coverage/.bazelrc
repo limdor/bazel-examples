@@ -14,4 +14,18 @@ build --verbose_failures
 #####################
 
 # Enable disk cache
-build --disk_cache=~/.bazel/disk_cache/
+# build --disk_cache=~/.bazel/disk_cache/
+
+coverage --instrument_test_targets
+coverage --coverage_report_generator=@bazel_tools//tools/test/CoverageOutputGenerator/java/com/google/devtools/coverageoutputgenerator:Main
+coverage --combined_report=lcov
+
+coverage --test_tag_filters=unit
+coverage --nobuild_tests_only
+coverage -c dbg
+
+coverage --instrumentation_filter="[/:]"
+coverage --test_env=COVERAGE_GCOV_OPTIONS=-bcu
+coverage --nocache_test_results
+
+coverage --copt=-std=c++14
