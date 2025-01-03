@@ -9,9 +9,7 @@ python_common: &python_common
 python_windows_run_targets: &python_windows_run_targets
   run_targets:
   - "//:bin"
-  # Running buildifier from the Bazel rule does not work on Windows
-  # See https://github.com/bazelbuild/buildtools/issues/346 and https://github.com/bazelbuild/buildtools/issues/770
-  #  - "//:buildifier"
+  - "//:buildifier"
 
 python_unix_run_targets: &python_unix_run_targets
   run_targets:

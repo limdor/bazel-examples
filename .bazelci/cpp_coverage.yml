@@ -8,9 +8,7 @@ cpp_coverage_common: &cpp_coverage_common
 
 cpp_coverage_windows_run_targets: &cpp_coverage_windows_run_targets
   run_targets:
-  # Running buildifier from the Bazel rule does not work on Windows
-  # See https://github.com/bazelbuild/buildtools/issues/346 and https://github.com/bazelbuild/buildtools/issues/770
-  # - "//:buildifier"
+  - "//:buildifier"
 
 cpp_coverage_unix_run_targets: &cpp_coverage_unix_run_targets
   run_targets:
@@ -48,5 +46,4 @@ tasks:
   cpp-windows:
     platform: windows
     <<: *cpp_coverage_common
-    # No target to run, the only one would be buildifier that does not run on Windows
-    # <<: *cpp_coverage_windows_run_targets
+    <<: *cpp_coverage_windows_run_targets
