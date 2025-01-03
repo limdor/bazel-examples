@@ -7,9 +7,7 @@ cpp_common: &cpp_common
 cpp_windows_run_targets: &cpp_windows_run_targets
   run_targets:
   - "//:hello_world"
-  # Running buildifier from the Bazel rule does not work on Windows
-  # See https://github.com/bazelbuild/buildtools/issues/346 and https://github.com/bazelbuild/buildtools/issues/770
-  # - "//:buildifier"
+  - "//:buildifier"
 
 cpp_unix_run_targets: &cpp_unix_run_targets
   run_targets:
