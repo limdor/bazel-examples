@@ -1,4 +1,4 @@
-bazel: 7.4.1
+bazel: 7.6.1
 imports:
 - cpp.yml
 - cpp_and_python.yml
