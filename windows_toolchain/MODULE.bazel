@@ -4,5 +4,5 @@ bazel_dep(name = "platforms", version = "1.0.0")
 bazel_dep(name = "rules_cc", version = "0.1.2")
 
 register_toolchains(
-    "//toolchain:my_windows_toolchain",
+    "//toolchain:cc-toolchain-x64_windows",
 )
