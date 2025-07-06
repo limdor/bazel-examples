@@ -2,29 +2,31 @@ third_party_dependencies_common: &third_party_dependencies_common
   name: "Bazel with third party dependencies"
   working_directory: .
   build_targets:
-  - "//..."
+    - "//..."
   test_targets:
-  - "//..."
+    - "//..."
 
-third_party_dependencies_windows_run_targets: &third_party_dependencies_windows_run_targets
+third_party_dependencies_windows_run_targets:
+  &third_party_dependencies_windows_run_targets
   run_targets:
-  - "//:buildifier"
+    - "//:buildifier"
 
-third_party_dependencies_unix_run_targets: &third_party_dependencies_unix_run_targets
+third_party_dependencies_unix_run_targets:
+  &third_party_dependencies_unix_run_targets
   run_targets:
-  - "//:buildifier"
+    - "//:buildifier"
 
 tasks:
-  third-party-dependencies-ubuntu1804:
-    platform: ubuntu1804
-    <<: *third_party_dependencies_common
-    <<: *third_party_dependencies_unix_run_targets
   third-party-dependencies-ubuntu2004:
     platform: ubuntu2004
     <<: *third_party_dependencies_common
     <<: *third_party_dependencies_unix_run_targets
   third-party-dependencies-ubuntu2204:
     platform: ubuntu2204
+    <<: *third_party_dependencies_common
+    <<: *third_party_dependencies_unix_run_targets
+  third-party-dependencies-ubuntu2404:
+    platform: ubuntu2404
     <<: *third_party_dependencies_common
     <<: *third_party_dependencies_unix_run_targets
   third-party-dependencies-centos7:

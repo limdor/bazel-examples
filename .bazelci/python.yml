@@ -2,31 +2,31 @@ python_common: &python_common
   name: "Basic Python example"
   working_directory: .
   build_targets:
-  - "//..."
+    - "//..."
   test_targets:
-  - "//:test"
+    - "//:test"
 
 python_windows_run_targets: &python_windows_run_targets
   run_targets:
-  - "//:bin"
-  - "//:buildifier"
+    - "//:bin"
+    - "//:buildifier"
 
 python_unix_run_targets: &python_unix_run_targets
   run_targets:
-  - "//:bin"
-  - "//:buildifier"
+    - "//:bin"
+    - "//:buildifier"
 
 tasks:
-  python-ubuntu1804:
-    platform: ubuntu1804
-    <<: *python_common
-    <<: *python_unix_run_targets
   python-ubuntu2004:
     platform: ubuntu2004
     <<: *python_common
     <<: *python_unix_run_targets
   python-ubuntu2204:
     platform: ubuntu2204
+    <<: *python_common
+    <<: *python_unix_run_targets
+  python-ubuntu2404:
+    platform: ubuntu2404
     <<: *python_common
     <<: *python_unix_run_targets
   python-centos7:

@@ -2,31 +2,31 @@ cpp_and_python_common: &cpp_and_python_common
   name: "Bazel Macros: Generate cpp files using Python"
   working_directory: .
   build_targets:
-  - "//..."
+    - "//..."
 
 cpp_and_python_windows_run_targets: &cpp_and_python_windows_run_targets
   run_targets:
-  - "//:hello_world_everyone"
-  - "//:hello_world_code_dive"
-  - "//:buildifier"
+    - "//:hello_world_everyone"
+    - "//:hello_world_code_dive"
+    - "//:buildifier"
 
 cpp_and_python_unix_run_targets: &cpp_and_python_unix_run_targets
   run_targets:
-  - "//:hello_world_everyone"
-  - "//:hello_world_code_dive"
-  - "//:buildifier"
+    - "//:hello_world_everyone"
+    - "//:hello_world_code_dive"
+    - "//:buildifier"
 
 tasks:
-  cpp-and-python-ubuntu1804:
-    platform: ubuntu1804
-    <<: *cpp_and_python_common
-    <<: *cpp_and_python_unix_run_targets
   cpp-and-python-ubuntu2004:
     platform: ubuntu2004
     <<: *cpp_and_python_common
     <<: *cpp_and_python_unix_run_targets
   cpp-and-python-ubuntu2204:
     platform: ubuntu2204
+    <<: *cpp_and_python_common
+    <<: *cpp_and_python_unix_run_targets
+  cpp-and-python-ubuntu2404:
+    platform: ubuntu2404
     <<: *cpp_and_python_common
     <<: *cpp_and_python_unix_run_targets
   cpp-and-python-centos7:

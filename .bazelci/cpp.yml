@@ -2,29 +2,29 @@ cpp_common: &cpp_common
   name: "Basic C++ example"
   working_directory: .
   build_targets:
-  - "//..."
+    - "//..."
 
 cpp_windows_run_targets: &cpp_windows_run_targets
   run_targets:
-  - "//:hello_world"
-  - "//:buildifier"
+    - "//:hello_world"
+    - "//:buildifier"
 
 cpp_unix_run_targets: &cpp_unix_run_targets
   run_targets:
-  - "//:hello_world"
-  - "//:buildifier"
+    - "//:hello_world"
+    - "//:buildifier"
 
 tasks:
-  cpp-ubuntu1804:
-    platform: ubuntu1804
-    <<: *cpp_common
-    <<: *cpp_unix_run_targets
   cpp-ubuntu2004:
     platform: ubuntu2004
     <<: *cpp_common
     <<: *cpp_unix_run_targets
   cpp-ubuntu2204:
     platform: ubuntu2204
+    <<: *cpp_common
+    <<: *cpp_unix_run_targets
+  cpp-ubuntu2404:
+    platform: ubuntu2404
     <<: *cpp_common
     <<: *cpp_unix_run_targets
   cpp-centos7:
