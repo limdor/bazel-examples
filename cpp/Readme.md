@@ -6,7 +6,7 @@ Show how to build and execute a binary, how to build a library, and how to build
 
 ## About the example
 
-In this example we have declared 3 targets. A library, an executable and a test. The binary and the test depends on the library.
+In this example we have declared 3 targets. A library, an executable, and a test. The binary and the test depends on the library.
 
 * `//:my_lib`: A library with a public header and a single cpp file. It can be defined in Bazel as follows:
 
@@ -114,4 +114,4 @@ You can also pass it when calling directly `bazel run`.
 
 ## Related Bazel github issues
 
-* [#20707: [bazel.build] Problem with /docs/user-manual (open)](https://github.com/bazelbuild/bazel/issues/20707)
+* [#20707: [bazel.build] Problem with /docs/user-manual (fixed in Bazel 8 LTS)](https://github.com/bazelbuild/bazel/issues/20707)
