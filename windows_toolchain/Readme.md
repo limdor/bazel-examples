@@ -21,10 +21,10 @@ In case of C++, a toolchain is composed mainly by compiler, linker, compiler fla
 ### Obtain the default generted toolchain
 
 The first think that we need to do, is to know which toolchain Bazel is using to compile C++ and where to find it.
-To do that we can build any target specifying the option `--toolchain_resolution_debug`.
+To do that we can build any target specifying the option `--toolchain_resolution_debug=.*`.
 
 ```bash
-bazel build --toolchain_resolution_debug //:hello_world
+bazel build --toolchain_resolution_debug=.* //:hello_world
 ```
 
 When doing that we will see in the logs which toolchain Bazel decided to use.
