@@ -9,7 +9,9 @@ python_common: &python_common
 python_windows_run_targets: &python_windows_run_targets
   run_targets:
     - "//:bin"
-    - "//:buildifier"
+    # Buildifier rules do not work on Windows and Bzlmod
+    # https://github.com/keith/buildifier-prebuilt/issues/99
+    # - "//:buildifier"
 
 python_unix_run_targets: &python_unix_run_targets
   run_targets:

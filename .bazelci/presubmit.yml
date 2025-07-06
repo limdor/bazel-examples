@@ -1,3 +1,4 @@
+buildifier: 8.2.1
 bazel: 8.3.1
 imports:
   - cpp.yml
