@@ -11,6 +11,7 @@ third_party_dependencies_windows_run_targets:
   run_targets:
     # Buildifier rules do not work on Windows and Bzlmod
     # https://github.com/keith/buildifier-prebuilt/issues/99
+    # https://github.com/bazelbuild/bazel-central-registry/issues/380
     # - "//:buildifier"
 
 third_party_dependencies_unix_run_targets:
