@@ -74,9 +74,9 @@ cc_toolchain(
     toolchain_identifier = "msvc_x64",
 )
 
-_BUILD_TOOLS_INSTALL_PATH = "C:\\Program Files (x86)\\Microsoft Visual Studio\\2022\\BuildTools\\"
+_BUILD_TOOLS_INSTALL_PATH = "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\"
 
-_MSVC_VERSION = "14.44.35207"
+_MSVC_VERSION = "14.42.34433"
 
 _WINDOWS_10_SDK_PATH = "C:\\Program Files (x86)\\Windows Kits\\10\\"
 
