@@ -9,7 +9,7 @@ Show how to explicitly declare the C++ toolchain that is automatically detected 
 In this example we will see how we can explicitly declare a C++ toolchain in Bazel taking as a reference the toolchain automatically generated.
 
 Currently in Bazel there are two ways to use toolchains, one is with `--cpu`, `--crosstool_top` and `--compiler`, and the other one is using platforms.
-The first way is complex, lacks flexibility and it is planned to be deprecated, the second one will replace the first one.
+The first way is complex, lacks flexibility and it is deprecated, the second one replaces the first one.
 Because of this, in this example we will show how to use toolchains building with platforms.
 
 ### Bazel toolchains
@@ -21,25 +21,31 @@ In case of C++, a toolchain is composed mainly by compiler, linker, compiler fla
 ### Obtain the default generted toolchain
 
 The first think that we need to do, is to know which toolchain Bazel is using to compile C++ and where to find it.
-To do that we can build any target specifying the option `--toolchain_resolution_debug`.
+To do that we can build any target specifying the option `--toolchain_resolution_debug=.*`.
 
 ```bash
-bazel build --toolchain_resolution_debug //:hello_world
+bazel build --toolchain_resolution_debug=.* //:hello_world
 ```
 
 When doing that we will see in the logs which toolchain Bazel decided to use.
 Not all toolchains that appear in the log are used, we need to pay special attention to the part that says `Selected toolchain` in the logs starting with `INFO: ToolchainResolution:`.
 
 ```bash
-INFO: ToolchainResolution:     Type @bazel_tools//tools/cpp:toolchain_type: target platform @local_config_platform//:host: Rejected toolchain @local_config_cc//:cc-compiler-armeabi-v7a; mismatching values: arm, android
-INFO: ToolchainResolution:   Type @bazel_tools//tools/cpp:toolchain_type: target platform @local_config_platform//:host: execution @local_config_platform//:host: Selected toolchain @local_config_cc//:cc-compiler-x64_windows
-INFO: ToolchainResolution: Target platform @local_config_platform//:host: Selected execution platform @local_config_platform//:host, type @bazel_tools//tools/cpp:toolchain_type -> toolchain @local_config_cc//:cc-compiler-x64_windows
-INFO: ToolchainResolution: Target platform @local_config_platform//:host: Selected execution platform @local_config_platform//:host,
-INFO: ToolchainResolution: Target platform @local_config_platform//:host: Selected execution platform @local_config_platform//:host,
+INFO: ToolchainResolution: Target platform @@platforms//host:host: Selected execution platform @@platforms//host:host,
+INFO: ToolchainResolution: Performing resolution of @@bazel_tools//tools/cpp:toolchain_type for target platform @@platforms//host:host
+      ToolchainResolution:   Rejected toolchain @@rules_cc++cc_configure_extension+local_config_cc//:cc-compiler-armeabi-v7a; mismatching values: armv7, android
+      ToolchainResolution:   Toolchain @@rules_cc++cc_configure_extension+local_config_cc//:cc-compiler-x64_windows is compatible with target platform, searching for execution platforms:
+      ToolchainResolution:     Compatible execution platform @@platforms//host:host
+      ToolchainResolution:   All execution platforms have been assigned a @@bazel_tools//tools/cpp:toolchain_type toolchain, stopping
+      ToolchainResolution: Recap of selected @@bazel_tools//tools/cpp:toolchain_type toolchains for target platform @@platforms//host:host:
+      ToolchainResolution:   Selected @@rules_cc++cc_configure_extension+local_config_cc//:cc-compiler-x64_windows to run on execution platform @@platforms//host:host
+INFO: ToolchainResolution: Target platform @@platforms//host:host: Selected execution platform @@platforms//host:host, type @@bazel_tools//tools/cpp:toolchain_type -> toolchain @@rules_cc++cc_configure_extension+local_config_cc//:cc-compiler-x64_windows
+INFO: ToolchainResolution: Target platform @@platforms//host:host: Selected execution platform @@platforms//host:host,
+INFO: ToolchainResolution: Target platform @@platforms//host:host: Selected execution platform @@platforms//host:host,
 ```
 
-In this case the relevant line is the one that contains `Selected toolchain @local_config_cc//:cc-compiler-x64_windows` and it is telling us that the toolchain selected
-is `@local_config_cc//:cc-compiler-x64_windows`.
+In this case the relevant line is the one that contains `Selected @@rules_cc++cc_configure_extension+local_config_cc//:cc-compiler-x64_windows to run on execution platform @@platforms//host:host` and it is telling us that the toolchain selected
+is `@@rules_cc++cc_configure_extension+local_config_cc//:cc-compiler-x64_windows`.
 We need to keep in mind that the toolchain selected might depend on what is installed on the computer and what operating system you are using.
 
 Now that we know what toolchain has been used, the next step is to take it as a reference to create our own toolchain.
@@ -48,7 +54,7 @@ The good part of the autogenerated toolchain is that exist in the file system in
 Let's take it:
 
 * Create a folder called `toolchain` that is where we will store our toolchain.
-* Copy the content of `bazel-windows_toolchain/external/local_config_cc` except the `WORKSPACE` file, inside the `toolchain` folder that you just created.
+* Copy the content of `bazel-windows_toolchain\external\rules_cc++cc_configure_extension+local_config_cc` except the `REPO.bazel` file, inside the `toolchain` folder that you just created.
 
 ### Make sure that the autogenerated toolchain is not used
 
@@ -59,25 +65,27 @@ In addition we also want to use the new way to work with toolchains, for that we
 Let's see what happens when we build our target with this options:
 
 ```bash
-bazel build //:hello_world --toolchain_resolution_debug --incompatible_enable_cc_toolchain_resolution --action_env=BAZEL_DO_NOT_DETECT_CPP_TOOLCHAIN=1
-INFO: Invocation ID: 40a879bb-a931-4bdb-9af5-d20d72f1796d
-INFO: Build option --action_env has changed, discarding analysis cache.
-INFO: ToolchainResolution:   Type @bazel_tools//tools/cpp:toolchain_type: target platform @local_config_platform//:host: No toolchains found.
-ERROR: While resolving toolchains for target //:hello_world: No matching toolchains found for types @bazel_tools//tools/cpp:toolchain_type. Maybe --incompatible_use_cc_configure_from_rules_cc has been flipped and
-there is no default C++ toolchain added in the WORKSPACE file? See https://github.com/bazelbuild/bazel/issues/10134 for details and migration instructions.
-ERROR: Analysis of target '//:hello_world' failed; build aborted: No matching toolchains found for types @bazel_tools//tools/cpp:toolchain_type. Maybe --incompatible_use_cc_configure_from_rules_cc has been flipped and there is no default C++ toolchain added in the WORKSPACE file? See https://github.com/bazelbuild/bazel/issues/10134 for details and migration instructions.
-INFO: Elapsed time: 0.869s
-INFO: 0 processes.
-FAILED: Build did NOT complete successfully (2 packages loaded, 97 targets configured)
+bazel build //:hello_world --toolchain_resolution_debug=.* --incompatible_enable_cc_toolchain_resolution --action_env=BAZEL_DO_NOT_DETECT_CPP_TOOLCHAIN=1
+INFO: Invocation ID: 87ccb9dd-7322-4198-9221-d7d26d3517fa
+ERROR: C:/users/xavib/_bazel_xavib/afrgjelk/external/rules_cc+/cc/BUILD:138:19: in cc_toolchain_alias rule @@rules_cc+//cc:current_cc_toolchain:
+Traceback (most recent call last):
+        File "/virtual_builtins_bzl/common/cc/cc_toolchain_alias.bzl", line 26, column 48, in _impl
+        File "/virtual_builtins_bzl/common/cc/cc_helper.bzl", line 163, column 13, in _find_cpp_toolchain
+Error in fail: Unable to find a CC toolchain using toolchain resolution. Target: @@rules_cc+//cc:current_cc_toolchain, Platform: @@bazel_tools//tools:host_platform, Exec platform: @@bazel_tools//tools:host_platform
+ERROR: C:/users/xavib/_bazel_xavib/afrgjelk/external/rules_cc+/cc/BUILD:138:19: Analysis of target '@@rules_cc+//cc:current_cc_toolchain' failed
+ERROR: Analysis of target '//:hello_world' failed; build aborted: Analysis failed
+INFO: Elapsed time: 0.260s, Critical Path: 0.03s
+INFO: 1 process: 1 internal.
+ERROR: Build did NOT complete successfully
 ```
 
-The relevant line here is `ERROR: While resolving toolchains for target //:hello_world: No matching toolchains found for types @bazel_tools//tools/cpp:toolchain_type`.
+The relevant line here is `Unable to find a CC toolchain using toolchain resolution. Target: @@rules_cc+//cc:current_cc_toolchain, Platform: @@bazel_tools//tools:host_platform, Exec platform: @@bazel_tools//tools:host_platform`.
 As we wanted, Bazel is not able to compile anymore, because it cannot find the C++ toolchain.
 That is good because with this way we are sure that does not take the autogenerated toolchain.
 
 ### Configuring our explicitly declared toolchain
 
-If we look in the `BUILD` file that we just copied inside the `toolchain` folder, we will see that contains a `cc_toolchain` and a `cc_toolchain_suite` target. To be able to use the toolchain building with platforms, we need to add an additional target called `toolchain` that contains the following information:
+If we look in the `BUILD` file that we just copied inside the `toolchain` folder, we will see that contains multiple `cc_toolchain` and `toolchain` targets and one `cc_toolchain_suite` target. To be able to use the copied toolchain, we need to find the `toolchain` target with that mentions in the `toolchain` parameter the target mentioned abve, in our case `cc-compiler-x64_windows`.
 
 * The toolchain to be used, needs to point to the `cc_toolchain` target, in this case `cc-compiler-x64_windows`
 * The type of the toolchain, in this case C++
@@ -88,25 +96,25 @@ The target that we need to add is as follows:
 
 ```bash
 toolchain(
-    name = "my_windows_toolchain",
+    name = "cc-toolchain-x64_windows",
     exec_compatible_with = [
-        "@platforms//os:windows",
         "@platforms//cpu:x86_64",
+        "@platforms//os:windows",
     ],
     target_compatible_with = [
-        "@platforms//os:windows",
         "@platforms//cpu:x86_64",
+        "@platforms//os:windows",
     ],
     toolchain = ":cc-compiler-x64_windows",
     toolchain_type = "@bazel_tools//tools/cpp:toolchain_type",
 )
 ```
 
-And now we are ready for the last step, that is to inform Bazel that the toolchain is available. To do that we need to register the toolchain in the `WORKSPACE` file (or in a .bzl file loaded in the `WORKSPACE` file).
+And now we are ready for the last step, that is to inform Bazel that the toolchain is available. To do that we need to register the toolchain in the `MODULE.bazel` file.
 
 ```bash
 register_toolchains(
-    "//toolchain:my_windows_toolchain",
+    "//toolchain:cc-toolchain-x64_windows",
 )
 ```
 
@@ -116,7 +124,7 @@ As we saw before, we might have two different platforms, one where the toolchain
 
 To declare the platform is pretty simple, we just need to create a `platform` target containing the constrains of our platform. In this case it is Windows on a x64 cpu.
 
-To keep it structure, we put this target in a `BUILD` file in a `platform` folder:
+To keep it structured, we put this target in a `BUILD` file in a `platform` folder:
 
 ```bash
 platform(
@@ -134,20 +142,24 @@ platform(
 Now that the toolchain is registered, and the platform is declared, we just need to compile specifying the target platform and Bazel will know which toolchain to use.
 
 ```bash
-bazel build //:hello_world --toolchain_resolution_debug --platforms=//platform:windows_x64 --incompatible_enable_cc_toolchain_resolution --action_env=BAZEL_DO_NOT_DETECT_CPP_TOOLCHAIN=1
-Starting local Bazel server and connecting to it...
-INFO: Invocation ID: 26d1680f-be65-4e1d-93b9-92e9be123824
-INFO: ToolchainResolution:   Type @bazel_tools//tools/cpp:toolchain_type: target platform //platform:windows_x64: execution @local_config_platform//:host: Selected toolchain //toolchain:cc-compiler-x64_windows
-INFO: ToolchainResolution: Target platform //platform:windows_x64: Selected execution platform @local_config_platform//:host, type @bazel_tools//tools/cpp:toolchain_type -> toolchain //toolchain:cc-compiler-x64_windows
-INFO: ToolchainResolution: Target platform @local_config_platform//:host: Selected execution platform @local_config_platform//:host,
-INFO: ToolchainResolution: Target platform //platform:windows_x64: Selected execution platform @local_config_platform//:host,
-INFO: Analyzed target //:hello_world (21 packages loaded, 132 targets configured).
+bazel build //:hello_world --toolchain_resolution_debug=.* --platforms=//platform:windows_x64 --incompatible_enable_cc_toolchain_resolution --action_env=BAZEL_DO_NOT_DETECT_CPP_TOOLCHAIN=1
+INFO: ToolchainResolution: Target platform //platform:windows_x64: Selected execution platform @@platforms//host:host,
+INFO: ToolchainResolution: Performing resolution of @@bazel_tools//tools/cpp:toolchain_type for target platform //platform:windows_x64
+      ToolchainResolution:   Toolchain //toolchain:cc-compiler-x64_windows is compatible with target platform, searching for execution platforms:
+      ToolchainResolution:     Compatible execution platform @@platforms//host:host
+      ToolchainResolution:   All execution platforms have been assigned a @@bazel_tools//tools/cpp:toolchain_type toolchain, stopping
+      ToolchainResolution: Recap of selected @@bazel_tools//tools/cpp:toolchain_type toolchains for target platform //platform:windows_x64:
+      ToolchainResolution:   Selected //toolchain:cc-compiler-x64_windows to run on execution platform @@platforms//host:host
+INFO: ToolchainResolution: Target platform //platform:windows_x64: Selected execution platform @@platforms//host:host, type @@bazel_tools//tools/cpp:toolchain_type -> toolchain //toolchain:cc-compiler-x64_windows
+INFO: ToolchainResolution: Target platform //platform:windows_x64: Selected execution platform @@platforms//host:host,
+INFO: ToolchainResolution: Target platform @@platforms//host:host: Selected execution platform @@platforms//host:host,
+INFO: Analyzed target //:hello_world (74 packages loaded, 491 targets configured).
 INFO: Found 1 target...
 Target //:hello_world up-to-date:
   bazel-bin/hello_world.exe
-INFO: Elapsed time: 67.487s, Critical Path: 1.97s
-INFO: 6 processes: 4 internal, 2 local.
-INFO: Build completed successfully, 6 total actions
+INFO: Elapsed time: 3.390s, Critical Path: 1.86s
+INFO: 5 processes: 1 action cache hit, 3 internal, 2 local.
+INFO: Build completed successfully, 5 total actions
 ```
 
 Because the part of the command line `--action_env=BAZEL_DO_NOT_DETECT_CPP_TOOLCHAIN=1` and `--incompatible_enable_cc_toolchain_resolution` is something that we always want to do to make sure that we do not use anymore autmatically generated toolchains, we can extract it in the `.bazelrc` file.

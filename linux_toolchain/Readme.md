@@ -9,7 +9,7 @@ Show how to explicitly declare the C++ toolchain that is automatically detected 
 In this example we will see how we can explicitly declare a C++ toolchain in Bazel taking as a reference the toolchain automatically generated.
 
 Currently in Bazel there are two ways to use toolchains, one is with `--cpu`, `--crosstool_top` and `--compiler`, and the other one is using platforms.
-The first way is complex, lacks flexibility and it is planned to be deprecated, the second one will replace the first one.
+The first way is complex, lacks flexibility and it is deprecated, the second one replaces the first one.
 Because of this, in this example we will show how to use toolchains building with platforms.
 
 ### Bazel toolchains

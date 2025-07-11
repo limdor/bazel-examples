@@ -2,29 +2,32 @@ cpp_coverage_common: &cpp_coverage_common
   name: "Basic code coverage computation for C++"
   working_directory: .
   build_targets:
-  - "//..."
+    - "//..."
   test_targets:
-  - "//:foo_test"
+    - "//:foo_test"
 
 cpp_coverage_windows_run_targets: &cpp_coverage_windows_run_targets
   run_targets:
-  - "//:buildifier"
+    # Buildifier rules do not work on Windows and Bzlmod
+    # https://github.com/keith/buildifier-prebuilt/issues/99
+    # https://github.com/bazelbuild/bazel-central-registry/issues/380
+    # - "//:buildifier"
 
 cpp_coverage_unix_run_targets: &cpp_coverage_unix_run_targets
   run_targets:
-  - "//:buildifier"
+    - "//:buildifier"
 
 tasks:
-  cpp-ubuntu1804:
-    platform: ubuntu1804
-    <<: *cpp_coverage_common
-    <<: *cpp_coverage_unix_run_targets
   cpp-ubuntu2004:
     platform: ubuntu2004
     <<: *cpp_coverage_common
     <<: *cpp_coverage_unix_run_targets
   cpp-ubuntu2204:
     platform: ubuntu2204
+    <<: *cpp_coverage_common
+    <<: *cpp_coverage_unix_run_targets
+  cpp-ubuntu2404:
+    platform: ubuntu2404
     <<: *cpp_coverage_common
     <<: *cpp_coverage_unix_run_targets
   cpp-centos7:

@@ -1,7 +1,8 @@
-bazel: 7.6.1
+buildifier: 8.2.1
+bazel: 8.3.1
 imports:
-- cpp.yml
-- cpp_and_python.yml
-- cpp_coverage.yml
-- python.yml
-- third_party_dependencies.yml
+  - cpp.yml
+  - cpp_and_python.yml
+  - cpp_coverage.yml
+  - python.yml
+  - third_party_dependencies.yml
