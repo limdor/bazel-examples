@@ -28,7 +28,5 @@ build --toolchain_resolution_debug=.*
 ###################################
 
 # Do not use automatically generated toolchains
+# Next line should be commented out if you want to follow the Readme.md instructions
 build --action_env=BAZEL_DO_NOT_DETECT_CPP_TOOLCHAIN=1
-
-# Do not use the deprecated toolchain resolution system with --cpu and --crosstool_top
-build --incompatible_enable_cc_toolchain_resolution
