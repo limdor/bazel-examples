@@ -2,13 +2,15 @@ Set-StrictMode -Version latest
 $ErrorActionPreference = "Stop"
 $PSNativeCommandUseErrorActionPreference = $true
 Set-Location $PSScriptRoot
-if($IsWindows) {
-    Write-Host "Skipping 'python' example on Windows"
-    Write-Host "It is not working in the Appveyor CI because it is not properly setup"
-} else {
-    bazel version
-    bazel run //:buildifier
-    bazel build //...
-    bazel run //:bin
-    bazel test //:test
+bazel version
+if ($IsWindows) {
+    Write-Host "Skipping 'bazel run //:buildifier' on Windows"
+    Write-Host "Running buildifier from the Bazel rule does not work on Windows"
+    Write-Host "See https://github.com/keith/buildifier-prebuilt/issues/99 and https://github.com/bazelbuild/bazel-central-registry/issues/380"
 }
+else {
+    bazel run //:buildifier
+}
+bazel build //...
+bazel run //:bin
+bazel test //:test
