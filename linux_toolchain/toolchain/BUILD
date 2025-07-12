@@ -14,16 +14,12 @@
 
 # This becomes the BUILD file for @local_config_cc// under non-BSD unixes.
 
-load("@rules_cc//cc:defs.bzl", "cc_library", "cc_toolchain")
+load("@rules_cc//cc/toolchains:cc_toolchain.bzl", "cc_toolchain")
 load(":cc_toolchain_config.bzl", "cc_toolchain_config")
 
 package(default_visibility = ["//visibility:public"])
 
 licenses(["notice"])  # Apache 2.0
-
-cc_library(
-    name = "malloc",
-)
 
 filegroup(
     name = "empty",
@@ -36,11 +32,26 @@ filegroup(
 )
 
 filegroup(
+    name = "validate_static_library",
+    srcs = ["validate_static_library.sh"],
+)
+
+filegroup(
+    name = "deps_scanner_wrapper",
+    srcs = ["deps_scanner_wrapper.sh"],
+)
+
+filegroup(
     name = "compiler_deps",
     srcs = glob(
         ["extra_tools/**"],
         allow_empty = True,
-    ) + [":builtin_include_directory_paths"],
+    ) + [
+        ":builtin_include_directory_paths",
+        ":cc_wrapper",
+        ":deps_scanner_wrapper",
+        ":validate_static_library",
+    ],
 )
 
 toolchain(
@@ -68,6 +79,7 @@ cc_toolchain(
     module_map = None,
     objcopy_files = ":empty",
     strip_files = ":empty",
+    supports_header_parsing = 1,
     supports_param_files = 1,
     toolchain_config = ":local",
     toolchain_identifier = "local",
@@ -78,39 +90,44 @@ cc_toolchain_config(
     abi_libc_version = "local",
     abi_version = "local",
     compile_flags = [
-        "-U_FORTIFY_SOURCE",
         "-fstack-protector",
         "-Wall",
         "-Wunused-but-set-parameter",
         "-Wno-free-nonheap-object",
         "-fno-omit-frame-pointer",
     ],
-    compiler = "compiler",
+    compiler = "gcc",
+    conly_flags = [],
     coverage_compile_flags = ["--coverage"],
     coverage_link_flags = ["--coverage"],
     cpu = "k8",
     cxx_builtin_include_directories = [
-        "/usr/lib/gcc/x86_64-linux-gnu/9/include",
+        "/usr/lib/gcc/x86_64-linux-gnu/13/include",
         "/usr/local/include",
         "/usr/include/x86_64-linux-gnu",
         "/usr/include",
-        "/usr/include/c++/9",
-        "/usr/include/x86_64-linux-gnu/c++/9",
-        "/usr/include/c++/9/backward",
+        "/usr/include/c++/13",
+        "/usr/include/x86_64-linux-gnu/c++/13",
+        "/usr/include/c++/13/backward",
     ],
-    cxx_flags = ["-std=c++0x"],
+    cxx_flags = ["-std=c++17"],
     dbg_compile_flags = ["-g"],
+    extra_flags_per_feature = {},
     host_system_name = "local",
     link_flags = [
-        "-fuse-ld=gold",
+        "-fuse-ld=lld",
+        "-B/usr/bin",
         "-Wl,-no-as-needed",
         "-Wl,-z,relro,-z,now",
-        "-B/usr/bin",
         "-pass-exit-codes",
     ],
     link_libs = [
+        "-Wl,--push-state,-as-needed",
         "-lstdc++",
+        "-Wl,--pop-state",
+        "-Wl,--push-state,-as-needed",
         "-lm",
+        "-Wl,--pop-state",
     ],
     opt_compile_flags = [
         "-g0",
@@ -127,15 +144,18 @@ cc_toolchain_config(
     tool_paths = {
         "ar": "/usr/bin/ar",
         "ld": "/usr/bin/ld",
-        "llvm-cov": "None",
-        "cpp": "/usr/bin/cpp-9",
-        "gcc": "/usr/bin/gcc-9",
+        "cpp": "/usr/bin/cpp-13",
+        "gcc": "/usr/bin/gcc-13",
         "dwp": "/usr/bin/dwp",
-        "gcov": "/usr/bin/gcov-9",
+        "gcov": "/usr/bin/gcov-13",
         "nm": "/usr/bin/nm",
         "objcopy": "/usr/bin/objcopy",
         "objdump": "/usr/bin/objdump",
         "strip": "/usr/bin/strip",
+        "c++filt": "/usr/bin/c++filt",
+        "cpp-module-deps-scanner": "deps_scanner_wrapper.sh",
+        "parse_headers": "cc_wrapper.sh",
+        "validate_static_library": "validate_static_library.sh",
     },
     toolchain_identifier = "local",
     unfiltered_compile_flags = [
