@@ -9,7 +9,7 @@ Some of these examples are explained also in the presentation [Introduction to B
 
 List of examples:
 
-* [Bazel with third party dependencies](./third_party_dependencies/)
+* [Bazel with third party dependencies using Bzlmod](./third_party_dependencies/)
 * [Basic C++ example](./cpp/)
 * [Basic code coverage computation for C++](./cpp_coverage/)
 * [Basic Python example](./python/)
