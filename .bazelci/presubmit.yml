@@ -5,4 +5,5 @@ imports:
   - cpp_and_python.yml
   - cpp_coverage.yml
   - python.yml
+  - rust.yml
   - third_party_dependencies.yml
