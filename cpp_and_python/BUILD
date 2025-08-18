@@ -9,6 +9,14 @@ buildifier(
     verbose = True,
 )
 
+exports_files(
+    srcs = [
+        "code_dive.txt",
+        "everyone.txt",
+        "ndc_techtown.txt",
+    ],
+)
+
 hello_world(
     name = "code_dive",
 )
@@ -28,7 +36,7 @@ cc_binary(
 
 cc_binary(
     name = "hello_world_ndc_techtown",
-    srcs = [":everyone"],
+    srcs = [":ndc_techtown"],
 )
 
 cc_binary(
