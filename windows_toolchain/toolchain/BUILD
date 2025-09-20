@@ -76,11 +76,11 @@ cc_toolchain(
 
 _BUILD_TOOLS_INSTALL_PATH = "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\"
 
-_MSVC_VERSION = "14.42.34433"
+_MSVC_VERSION = "14.44.35207"
 
 _WINDOWS_10_SDK_PATH = "C:\\Program Files (x86)\\Windows Kits\\10\\"
 
-_WINDOWS_10_SDK_VERSION = "10.0.22621.0"
+_WINDOWS_10_SDK_VERSION = "10.0.26100.0"
 
 _WINDOWS_10_SDK_INCLUDES = "{}include\\{}\\".format(_WINDOWS_10_SDK_PATH, _WINDOWS_10_SDK_VERSION)
 
