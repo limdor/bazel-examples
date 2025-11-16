@@ -5,8 +5,8 @@ image:
   - Visual Studio 2022
 
 environment:
-  USE_BAZEL_VERSION: 8.4.1
-  BAZELISK_VERSION: 1.26.0
+  USE_BAZEL_VERSION: 9.0.0rc2
+  BAZELISK_VERSION: 1.27.0
   VCVARSALL: x64
   platform: "x64"
 

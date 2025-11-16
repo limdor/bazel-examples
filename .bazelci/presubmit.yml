@@ -1,5 +1,5 @@
 buildifier: 8.2.1
-bazel: 8.4.1
+bazel: 9.0.0rc2
 imports:
   - cpp.yml
   - cpp_and_python.yml
