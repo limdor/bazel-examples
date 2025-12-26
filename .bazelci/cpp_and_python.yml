@@ -1,10 +1,10 @@
-cpp_and_python_common: &cpp_and_python_common
+common: &common
   name: "Bazel Macros: Generate cpp files using Python"
   working_directory: .
   build_targets:
     - "//..."
 
-cpp_and_python_windows_run_targets: &cpp_and_python_windows_run_targets
+windows_run_targets: &windows_run_targets
   run_targets:
     - "//:hello_world_everyone"
     - "//:hello_world_code_dive"
@@ -13,42 +13,34 @@ cpp_and_python_windows_run_targets: &cpp_and_python_windows_run_targets
     # https://github.com/bazelbuild/bazel-central-registry/issues/380
     # - "//:buildifier"
 
-cpp_and_python_unix_run_targets: &cpp_and_python_unix_run_targets
+unix_run_targets: &unix_run_targets
   run_targets:
     - "//:hello_world_everyone"
     - "//:hello_world_code_dive"
     - "//:buildifier"
 
 tasks:
-  cpp-and-python-ubuntu2004:
-    platform: ubuntu2004
-    <<: *cpp_and_python_common
-    <<: *cpp_and_python_unix_run_targets
-  cpp-and-python-ubuntu2204:
-    platform: ubuntu2204
-    <<: *cpp_and_python_common
-    <<: *cpp_and_python_unix_run_targets
-  cpp-and-python-ubuntu2404:
-    platform: ubuntu2404
-    <<: *cpp_and_python_common
-    <<: *cpp_and_python_unix_run_targets
-  cpp-and-python-centos7:
-    platform: centos7_java11_devtoolset10
-    <<: *cpp_and_python_common
-    <<: *cpp_and_python_unix_run_targets
-  cpp-and-python-debian10:
-    platform: debian10
-    <<: *cpp_and_python_common
-    <<: *cpp_and_python_unix_run_targets
-  cpp-and-python-debian11:
-    platform: debian11
-    <<: *cpp_and_python_common
-    <<: *cpp_and_python_unix_run_targets
-  cpp-and-python-macos:
-    platform: macos
-    <<: *cpp_and_python_common
-    <<: *cpp_and_python_unix_run_targets
-  cpp-and-python-windows:
-    platform: windows
-    <<: *cpp_and_python_common
-    <<: *cpp_and_python_windows_run_targets
+  ubuntu2004:
+    <<: *common
+    <<: *unix_run_targets
+  ubuntu2204:
+    <<: *common
+    <<: *unix_run_targets
+  ubuntu2404:
+    <<: *common
+    <<: *unix_run_targets
+  centos7_java11_devtoolset10:
+    <<: *common
+    <<: *unix_run_targets
+  debian10:
+    <<: *common
+    <<: *unix_run_targets
+  debian11:
+    <<: *common
+    <<: *unix_run_targets
+  macos:
+    <<: *common
+    <<: *unix_run_targets
+  windows:
+    <<: *common
+    <<: *windows_run_targets
