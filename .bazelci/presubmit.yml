@@ -1,3 +1,4 @@
+validate_config: 1
 buildifier: 8.2.1
 bazel: 8.4.1
 imports:
