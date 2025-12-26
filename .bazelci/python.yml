@@ -1,4 +1,4 @@
-python_common: &python_common
+common: &common
   name: "Basic Python example"
   working_directory: .
   build_targets:
@@ -6,7 +6,7 @@ python_common: &python_common
   test_targets:
     - "//:test"
 
-python_windows_run_targets: &python_windows_run_targets
+windows_run_targets: &windows_run_targets
   run_targets:
     - "//:bin"
     # Buildifier rules do not work on Windows and Bzlmod
@@ -14,41 +14,33 @@ python_windows_run_targets: &python_windows_run_targets
     # https://github.com/bazelbuild/bazel-central-registry/issues/380
     # - "//:buildifier"
 
-python_unix_run_targets: &python_unix_run_targets
+unix_run_targets: &unix_run_targets
   run_targets:
     - "//:bin"
     - "//:buildifier"
 
 tasks:
-  python-ubuntu2004:
-    platform: ubuntu2004
-    <<: *python_common
-    <<: *python_unix_run_targets
-  python-ubuntu2204:
-    platform: ubuntu2204
-    <<: *python_common
-    <<: *python_unix_run_targets
-  python-ubuntu2404:
-    platform: ubuntu2404
-    <<: *python_common
-    <<: *python_unix_run_targets
-  python-centos7:
-    platform: centos7_java11_devtoolset10
-    <<: *python_common
-    <<: *python_unix_run_targets
-  python-debian10:
-    platform: debian10
-    <<: *python_common
-    <<: *python_unix_run_targets
-  python-debian11:
-    platform: debian11
-    <<: *python_common
-    <<: *python_unix_run_targets
-  python-macos:
-    platform: macos
-    <<: *python_common
-    <<: *python_unix_run_targets
-  python-windows:
-    platform: windows
-    <<: *python_common
-    <<: *python_windows_run_targets
+  ubuntu2004:
+    <<: *common
+    <<: *unix_run_targets
+  ubuntu2204:
+    <<: *common
+    <<: *unix_run_targets
+  ubuntu2404:
+    <<: *common
+    <<: *unix_run_targets
+  centos7_java11_devtoolset10:
+    <<: *common
+    <<: *unix_run_targets
+  debian10:
+    <<: *common
+    <<: *unix_run_targets
+  debian11:
+    <<: *common
+    <<: *unix_run_targets
+  macos:
+    <<: *common
+    <<: *unix_run_targets
+  windows:
+    <<: *common
+    <<: *windows_run_targets
