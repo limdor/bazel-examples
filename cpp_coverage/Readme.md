@@ -150,4 +150,4 @@ And per feature:
 
 * [#5716: Support baseline coverage (open)](https://github.com/bazelbuild/bazel/issues/5716)
 * [#8324: baseline_coverage.dat is not a valid lcov file (closed as duplicate of #5716)](https://github.com/bazelbuild/bazel/issues/8324)
-* [#12142: IncompatibleMergeException in branch coverage for C++ headers (open)](https://github.com/bazelbuild/bazel/issues/12142)
+* [#12142: IncompatibleMergeException in branch coverage for C++ headers (fixed starting from Bazel 9 LTS)](https://github.com/bazelbuild/bazel/issues/12142)
