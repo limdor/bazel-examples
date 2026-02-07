@@ -8,9 +8,10 @@ Show how to explicitly declare the C++ toolchain that is automatically detected 
 
 In this example we will see how we can explicitly declare a C++ toolchain in Bazel taking as a reference the toolchain automatically generated.
 
-Currently in Bazel there are two ways to use toolchains, one is with `--cpu`, `--crosstool_top` and `--compiler`, and the other one is using platforms.
-The first way is complex, lacks flexibility and it is deprecated, the second one replaces the first one and it is enabled starting from Bazel 7 by default.
-Because of this, in this example we will show how to use toolchains building with platforms.
+Starting with Bazel 8 the only way to use toolchains is using platforms.
+Before, one could use `--cpu`, `--crosstool_top` and `--compiler` but it was complex and lacking flexibility. You might still find
+the command line options used for the old mechanism in the documentation but they are marked as `no-op` and will be deleted in future releases.
+In this example we will show how to use toolchains building with platforms.
 
 ### Bazel toolchains
 
@@ -23,7 +24,7 @@ In case of C++, a toolchain is composed mainly by compiler, linker, compiler fla
 The first think that we need to do, is to know which toolchain Bazel is using to compile C++ and where to find it.
 To do that we can build any target specifying the option `--toolchain_resolution_debug=.*`.
 
-**Note:** If you follow the instructions with the code in this repository, you need first to comment one the lines [here](./MODULE.bazel#L7) and [here](./.bazelrc#L32).
+**Note:** If you follow the instructions with the code in this repository, you first need to comment out [this line from `MODULE.bazel`](./MODULE.bazel#L7) and [this one from `.bazelrc`](./.bazelrc#L32).
 
 ```bash
 bazel build --toolchain_resolution_debug=.* //:hello_world
