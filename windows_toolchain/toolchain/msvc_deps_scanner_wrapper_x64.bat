@@ -13,4 +13,8 @@
 :: limitations under the License.
 
 @echo OFF
-"C:/Program Files (x86)/Microsoft Visual Studio/2022/BuildTools/VC/Tools/MSVC/14.44.35207/bin/HostX64/x64/cl.exe" /scanDependencies- /TP %* >%DEPS_SCANNER_OUTPUT_FILE%
+:: This is the path in my local machine with Windows 11 with Visual Studio Build Tools 2022
+:: "C:/Program Files (x86)/Microsoft Visual Studio/2022/BuildTools/VC/Tools/MSVC/14.44.35207/bin/HostX64/x64/cl.exe" /scanDependencies- /TP %* >%DEPS_SCANNER_OUTPUT_FILE%
+
+:: This is the path in the CI
+"C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/bin/HostX64/x64/cl.exe" /scanDependencies- /TP %* >%DEPS_SCANNER_OUTPUT_FILE%

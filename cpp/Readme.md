@@ -114,4 +114,4 @@ You can also pass it when calling directly `bazel run`.
 
 ## Related Bazel github issues
 
-* [#20707: [bazel.build] Problem with /docs/user-manual (fixed in Bazel 8 LTS)](https://github.com/bazelbuild/bazel/issues/20707)
+* [#20707: [bazel.build] Problem with /docs/user-manual (fixed starting from Bazel 8 LTS)](https://github.com/bazelbuild/bazel/issues/20707)

@@ -4,7 +4,7 @@
 
 This is a small Bazel example that uses third party dependencies ([also called external dependencies](https://docs.bazel.build/versions/master/external.html))
 with Bzlmod.
-Bzlmod was introduced in Bazel 6 as opt-in, enabled by default in Bazel 7 and 8, and it is planned to be the only way to deal with external dependencies in Bazel 9.
+Bzlmod was introduced in Bazel 6 as opt-in, enabled by default in Bazel 7 and 8, and it is the only way to deal with external dependencies in Bazel 9.
 
 This is an update of [the original example that was showing go to dealing with external dependencies before Bzlmod](https://github.com/limdor/bazel-examples/tree/v1.7.0/third_party_dependencies/). If you are familiar with the original example, you will see that now it is extreamly simplified how to deal with external dependencies.
 

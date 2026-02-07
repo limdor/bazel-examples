@@ -17,6 +17,9 @@ load("@rules_cc//cc:action_names.bzl", "ACTION_NAMES")
 load(
     "@rules_cc//cc:cc_toolchain_config_lib.bzl",
     "action_config",
+    "artifact_name_pattern",
+    "env_entry",
+    "env_set",
     "feature",
     "flag_group",
     "flag_set",
@@ -275,6 +278,10 @@ def _impl(ctx):
         name = "supports_pic",
         enabled = True,
     )
+    prefer_pic_for_opt_binaries_feature = feature(
+        name = "prefer_pic_for_opt_binaries",
+        enabled = False,
+    )
     supports_start_end_lib_feature = feature(
         name = "supports_start_end_lib",
         enabled = True,
@@ -321,6 +328,15 @@ def _impl(ctx):
                 actions = all_compile_actions,
                 flag_groups = ([
                     flag_group(
+                        flags = ctx.attr.fastbuild_compile_flags,
+                    ),
+                ] if ctx.attr.fastbuild_compile_flags else []),
+                with_features = [with_feature_set(features = ["fastbuild"])],
+            ),
+            flag_set(
+                actions = all_compile_actions,
+                flag_groups = ([
+                    flag_group(
                         flags = ctx.attr.dbg_compile_flags,
                     ),
                 ] if ctx.attr.dbg_compile_flags else []),
@@ -334,6 +350,14 @@ def _impl(ctx):
                     ),
                 ] if ctx.attr.opt_compile_flags else []),
                 with_features = [with_feature_set(features = ["opt"])],
+            ),
+            flag_set(
+                actions = all_compile_actions,
+                flag_groups = ([
+                    flag_group(
+                        flags = ctx.attr.all_compile_flags,
+                    ),
+                ] if ctx.attr.all_compile_flags else []),
             ),
             flag_set(
                 actions = [ACTION_NAMES.c_compile],
@@ -376,7 +400,21 @@ def _impl(ctx):
                 with_features = [with_feature_set(features = ["opt"])],
             ),
         ],
+        env_sets = [
+            env_set(
+                actions = all_link_actions + lto_index_actions + [ACTION_NAMES.cpp_link_static_library],
+                env_entries = ([
+                    env_entry(
+                        # Required for hermetic links on macOS
+                        key = "ZERO_AR_DATE",
+                        value = "1",
+                    ),
+                ]),
+            ),
+        ],
     )
+
+    fastbuild_feature = feature(name = "fastbuild")
 
     dbg_feature = feature(name = "dbg")
 
@@ -474,6 +512,20 @@ def _impl(ctx):
                     ),
                     flag_group(
                         flags = ["-o", "%{output_file}"],
+                        expand_if_available = "output_file",
+                    ),
+                ],
+            ),
+        ],
+        env_sets = [
+            env_set(
+                actions = [
+                    ACTION_NAMES.cpp_module_deps_scanning,
+                ],
+                env_entries = [
+                    env_entry(
+                        key = "DEPS_SCANNER_OUTPUT_FILE",
+                        value = "%{output_file}",
                         expand_if_available = "output_file",
                     ),
                 ],
@@ -757,6 +809,51 @@ def _impl(ctx):
                     flag_group(
                         flags = [
                             "-Wl,-soname,%{runtime_solib_name}",
+                        ],
+                        expand_if_available = "runtime_solib_name",
+                    ),
+                ],
+            ),
+        ],
+    )
+
+    runtime_library_search_directories_feature = feature(
+        name = "runtime_library_search_directories",
+        flag_sets = [
+            flag_set(
+                actions = all_link_actions + lto_index_actions,
+                flag_groups = [
+                    flag_group(
+                        iterate_over = "runtime_library_search_directories",
+                        flag_groups = [
+                            flag_group(
+                                flags = [
+                                    "-Xlinker",
+                                    "-rpath",
+                                    "-Xlinker",
+                                    "@loader_path/%{runtime_library_search_directories}",
+                                ],
+                            ),
+                        ],
+                        expand_if_available = "runtime_library_search_directories",
+                    ),
+                ],
+            ),
+        ],
+    )
+    set_install_name_feature = feature(
+        name = "set_install_name",
+        enabled = getattr(ctx.fragments.cpp, "do_not_use_macos_set_install_name", True),
+        flag_sets = [
+            flag_set(
+                actions = [
+                    ACTION_NAMES.cpp_link_dynamic_library,
+                    ACTION_NAMES.cpp_link_nodeps_dynamic_library,
+                ],
+                flag_groups = [
+                    flag_group(
+                        flags = [
+                            "-Wl,-install_name,@rpath/%{runtime_solib_name}",
                         ],
                         expand_if_available = "runtime_solib_name",
                     ),
@@ -1215,6 +1312,8 @@ def _impl(ctx):
                 flag_groups = [
                     flag_group(
                         flags = [
+                            "-D",
+                            "-no_warning_for_no_symbols",
                             "-static",
                             "-o",
                             "%{output_execpath}",
@@ -1434,6 +1533,14 @@ def _impl(ctx):
         ],
     )
 
+    no_use_lto_indexing_bitcode_file_feature = feature(
+        name = "no_use_lto_indexing_bitcode_file",
+    )
+
+    use_lto_native_object_directory_feature = feature(
+        name = "use_lto_native_object_directory",
+    )
+
     thinlto_feature = feature(
         name = "thin_lto",
         flag_sets = [
@@ -1444,6 +1551,13 @@ def _impl(ctx):
                 ] + all_link_actions + lto_index_actions,
                 flag_groups = [
                     flag_group(flags = ["-flto=thin"]),
+                    flag_group(
+                        expand_if_available = "lto_indexing_bitcode_file",
+                        flags = [
+                            "-Xclang",
+                            "-fthin-link-bitcode=%{lto_indexing_bitcode_file}",
+                        ],
+                    ),
                 ],
             ),
             flag_set(
@@ -1587,7 +1701,13 @@ def _impl(ctx):
     no_dotd_file_feature = feature(name = "no_dotd_file")
 
     # Linux artifact name patterns are the default.
-    artifact_name_patterns = []
+    artifact_name_patterns = [
+        artifact_name_pattern(
+            category_name = "cpp_module",
+            prefix = "",
+            extension = ".pcm",
+        ),
+    ]
     features = [
         cpp_modules_feature,
         cpp_module_modmap_file_feature,
@@ -1604,6 +1724,8 @@ def _impl(ctx):
         fdo_instrument_feature,
         cs_fdo_instrument_feature,
         cs_fdo_optimize_feature,
+        no_use_lto_indexing_bitcode_file_feature,
+        use_lto_native_object_directory_feature,
         thinlto_feature,
         fdo_prefetch_hints_feature,
         autofdo_feature,
@@ -1622,6 +1744,7 @@ def _impl(ctx):
         strip_debug_symbols_feature,
         coverage_feature,
         supports_pic_feature,
+        prefer_pic_for_opt_binaries_feature,
         asan_feature,
         tsan_feature,
         ubsan_feature,
@@ -1640,6 +1763,7 @@ def _impl(ctx):
         static_libgcc_feature,
         fdo_optimize_feature,
         supports_dynamic_linker_feature,
+        fastbuild_feature,
         dbg_feature,
         opt_feature,
         user_compile_flags_feature,
@@ -1687,6 +1811,7 @@ cc_toolchain_config = rule(
         "abi_version": attr.string(mandatory = True),
         "archive_flags": attr.string_list(),
         "builtin_sysroot": attr.string(),
+        "all_compile_flags": attr.string_list(),
         "compile_flags": attr.string_list(),
         "compiler": attr.string(mandatory = True),
         "conly_flags": attr.string_list(),
@@ -1697,6 +1822,7 @@ cc_toolchain_config = rule(
         "cxx_flags": attr.string_list(),
         "dbg_compile_flags": attr.string_list(),
         "extra_flags_per_feature": attr.string_list_dict(),
+        "fastbuild_compile_flags": attr.string_list(),
         "host_system_name": attr.string(mandatory = True),
         "link_flags": attr.string_list(),
         "link_libs": attr.string_list(),

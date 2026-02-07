@@ -51,10 +51,7 @@ filegroup(
 filegroup(
     name = "msvc_compiler_files",
     srcs = [
-        "msvc_deps_scanner_wrapper_arm.bat",
-        "msvc_deps_scanner_wrapper_arm64.bat",
         "msvc_deps_scanner_wrapper_x64.bat",
-        "msvc_deps_scanner_wrapper_x86.bat",
         ":builtin_include_directory_paths_msvc",
     ],
 )
@@ -74,6 +71,10 @@ cc_toolchain(
     toolchain_identifier = "msvc_x64",
 )
 
+# This is the path in my local machine with Windows 11 with Visual Studio Build Tools 2022
+# _BUILD_TOOLS_INSTALL_PATH = "C:\\Program Files (x86)\\Microsoft Visual Studio\\2022\\BuildTools\\"
+
+# This is the path in the CI
 _BUILD_TOOLS_INSTALL_PATH = "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\"
 
 _MSVC_VERSION = "14.44.35207"
@@ -102,14 +103,18 @@ cc_toolchain_config(
     name = "msvc_x64",
     abi_libc_version = "local",
     abi_version = "local",
+    all_compile_flags = [],
     archiver_flags = ["/MACHINE:X64"],
     compiler = "msvc-cl",
+    conly_flags = [],
     cpu = "x64_windows",
     cxx_builtin_include_directories = _CPP_INCLUDE_DIRECTORIES,
+    cxx_flags = [],
     dbg_mode_debug_flag = "/DEBUG:FULL",
     default_link_flags = ["/MACHINE:X64"],
     fastbuild_mode_debug_flag = "/DEBUG:FASTLINK",
     host_system_name = "local",
+    link_flags = [],
     msvc_cl_path = "{}bin/HostX64/x64/cl.exe".format(_MSVC_INSTALL_PATH),
     msvc_env_include = semicolon_separated(_CPP_INCLUDE_DIRECTORIES),
     msvc_env_lib = semicolon_separated([
@@ -124,9 +129,9 @@ cc_toolchain_config(
         "{}MSBuild\\Current\\bin\\Roslyn".format(_BUILD_TOOLS_INSTALL_PATH),
         "{}Team Tools\\DiagnosticsHub\\Collector".format(_BUILD_TOOLS_INSTALL_PATH),
         "{}Common7\\IDE\\Extensions\\Microsoft\\CodeCoverage.Console".format(_BUILD_TOOLS_INSTALL_PATH),
-        "{}bin\\{}\\\\x64".format(_WINDOWS_10_SDK_PATH, _WINDOWS_10_SDK_VERSION),
+        "{}bin\\{}\\x64".format(_WINDOWS_10_SDK_PATH, _WINDOWS_10_SDK_VERSION),
         "{}bin\\\\x64".format(_WINDOWS_10_SDK_PATH),
-        "{}\\MSBuild\\Current\\Bin\\amd64".format(_BUILD_TOOLS_INSTALL_PATH),
+        "{}MSBuild\\Current\\Bin\\amd64".format(_BUILD_TOOLS_INSTALL_PATH),
         "C:\\Windows\\Microsoft.NET\\Framework64\\v4.0.30319",
         "{}Common7\\IDE\\".format(_BUILD_TOOLS_INSTALL_PATH),
         "{}Common7\\Tools\\".format(_BUILD_TOOLS_INSTALL_PATH),
@@ -137,6 +142,7 @@ cc_toolchain_config(
     msvc_lib_path = "{}bin/HostX64/x64/lib.exe".format(_MSVC_INSTALL_PATH),
     msvc_link_path = "{}bin/HostX64/x64/link.exe".format(_MSVC_INSTALL_PATH),
     msvc_ml_path = "{}bin/HostX64/x64/ml64.exe".format(_MSVC_INSTALL_PATH),
+    shorten_virtual_includes = True,
     supports_parse_showincludes = True,
     target_libc = "msvcrt",
     target_system_name = "local",
