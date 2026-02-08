@@ -43,7 +43,7 @@ bazel coverage //:foo_test
 This will run the `foo_test` collecting the coverage information and generating a `.dat` file. Then we can run `genhtml` passing the output file to generate an html report.
 
 ```bash
-genhtml --output-directory coverage-report bazel-testlogs/foo_test/coverage.dat
+genhtml --branch-coverage --output-directory coverage-report bazel-testlogs/foo_test/coverage.dat
 ```
 
 Considering that we are interested in the coverage of the `main` target and all of its dependencies, we would expect to find in the report the files of the `foo`, `bar`, and `main` target. We are not interested on the coverage of the `foo_test` as well as the `catch2`.
@@ -52,24 +52,24 @@ Let's see what we have:
 
 ![Initial coverage](./initial_coverage.png)
 
-In the generated html only the `foo` target appears, showing a line coverage of 80% but in reality is much lower because `main` and `bar` have not been considered. Regarding the coverage measures we only see line coverage and function coverage.
+In the generated html only the `foo` target appears, showing a line coverage of 80% but in reality is much lower because `main` and `bar` have not been considered. Regarding the coverage measures we see line coverage, function coverage, and branch coverage, but no condition coverage.
 
 Let's summarize per target:
 
-- [x] `foo` should appear
-- [ ] `bar` should appear
-- [ ] `main` should appear
-- [x] `foo_test` should not appear
-- [x] `catch2` should not appear
+* [x] `foo` should appear
+* [ ] `bar` should appear
+* [ ] `main` should appear
+* [x] `foo_test` should not appear
+* [x] `catch2` should not appear
 
 And per feature:
 
-- [x] Line coverage
-- [x] Function coverage
-- [ ] Branch coverage
-- [ ] Condition coverage
+* [x] Line coverage
+* [x] Function coverage
+* [x] Branch coverage
+* [ ] Condition coverage
 
-As we can see in the related Bazel github issues, Bazel is not supporting baseline coverage and this is why the report is wrong. 
+As we can see in the related Bazel github issues, Bazel is not supporting baseline coverage and this is why the report is wrong.
 
 ### Workaround to get better results
 
@@ -81,16 +81,16 @@ First we clean the bazel-out to make sure that we do not have any previous cover
 bazel clean --expunge
 ```
 
-Then we compile the target for what we want to know the coverage adding the additional `--collect_code_coverage` parameter:
+Then we compile the target for what we want to know the coverage adding the additional `--collect_code_coverage` and `--remote_download_all` parameters:
 
 ```bash
-bazel build //:main --collect_code_coverage
+bazel build //:main --collect_code_coverage --remote_download_all
 ```
 
 After that, we run lcov from the root of the workspace to generate the `coverage_baseline.dat`:
 
 ```bash
-lcov -c --follow -i -d bazel-out/ -o coverage_baseline.dat
+lcov -c --follow --branch-coverage -i -d bazel-out/ -o coverage_baseline.dat
 ```
 
 This command will search for the coverage files generated during the compilation and will aggregate the information into the `coverage_baseline.dat` file.
@@ -112,35 +112,35 @@ sed -i 's,/proc/self/cwd/,,g' coverage_baseline.dat
 Now we can combine both files with the following command to get the final coverage file.
 
 ```bash
-lcov -a coverage_baseline.dat -a bazel-testlogs/foo_test/coverage.dat -o final_coverage.dat
+lcov --branch-coverage -a coverage_baseline.dat -a bazel-testlogs/foo_test/coverage.dat -o final_coverage.dat
 ```
 
 Like we did before we can now run `genhtml` to generate an html report.
 
 ```bash
-genhtml --output-directory coverage-report final_coverage.dat
+genhtml --branch-coverage --output-directory coverage-report final_coverage.dat
 ```
 
 Let's see now what we get in the report:
 
 ![Extended coverage](./extended_coverage.png)
 
-In the generated html `foo`, `bar` and `main` targets appear, showing a line coverage of 36.4%, much lower than before but now much more correct because `bar` and `main` targets are considered. Regarding the coverage measures we still only see line coverage and function coverage.
+In the generated html `foo`, `bar` and `main` targets appear, showing a line coverage of 36.4%, much lower than before but now much more correct because `bar` and `main` targets are considered. Regarding the coverage measures we still see line coverage, function coverage, and branch coverage, but no condition coverage.
 
 Let's summarize per target:
 
-- [x] `foo` should appear
-- [x] `bar` should appear
-- [x] `main` should appear
-- [x] `foo_test` should not appear
-- [x] `catch2` should not appear
+* [x] `foo` should appear
+* [x] `bar` should appear
+* [x] `main` should appear
+* [x] `foo_test` should not appear
+* [x] `catch2` should not appear
 
 And per feature:
 
-- [x] Line coverage
-- [x] Function coverage
-- [ ] Branch coverage
-- [ ] Condition coverage
+* [x] Line coverage
+* [x] Function coverage
+* [x] Branch coverage
+* [ ] Condition coverage
 
 ## Related links
 
