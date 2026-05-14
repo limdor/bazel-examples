@@ -13,11 +13,11 @@ This is an update of [the original example that was showing go to dealing with e
 When Bzlmod is enabled, the main workspace file is `MODULE.bazel`. In this file is where you have to put the third party dependency that you want to use.
 
 ```py
-bazel_dep(name = "buildifier_prebuilt", version = "8.2.0.2", dev_dependency = True)
-bazel_dep(name = "catch2", version = "3.8.1", dev_dependency = True)
-bazel_dep(name = "googletest", version = "1.16.0.bcr.1", dev_dependency = True)
+bazel_dep(name = "buildifier_prebuilt", version = "8.5.1.2", dev_dependency = True)
+bazel_dep(name = "catch2", version = "3.12.0", dev_dependency = True)
+bazel_dep(name = "googletest", version = "1.17.0.bcr.2", dev_dependency = True)
 
-bazel_dep(name = "rules_cc", version = "0.1.2")
+bazel_dep(name = "rules_cc", version = "0.2.18")
 ```
 
 The `bazel_dep` parameters have the following purpose:
