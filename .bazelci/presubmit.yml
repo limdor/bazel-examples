@@ -3,7 +3,7 @@ buildifier: 8.5.1
 bazel: 8.7.0
 imports:
   - cpp.yml
-  - cpp_and_python.yml
+  - multilanguage.yml
   - cpp_coverage.yml
   - python.yml
   - rust.yml
