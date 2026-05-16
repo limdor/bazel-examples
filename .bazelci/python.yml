@@ -32,10 +32,13 @@ tasks:
   centos7_java11_devtoolset10:
     <<: *common
     <<: *unix_run_targets
-  debian10:
+  debian11:
     <<: *common
     <<: *unix_run_targets
-  debian11:
+  debian12:
+    <<: *common
+    <<: *unix_run_targets
+  debian13:
     <<: *common
     <<: *unix_run_targets
   macos:
