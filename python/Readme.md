@@ -15,7 +15,7 @@ In this example we have declared 3 targets. A library, an application and a test
       name = "lib",
       srcs = [
           "__init__.py",
-          "my_lib.py",
+          "lib.py",
       ],
   )
   ```

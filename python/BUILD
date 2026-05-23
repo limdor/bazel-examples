@@ -18,7 +18,7 @@ py_library(
     name = "lib",
     srcs = [
         "__init__.py",
-        "my_lib.py",
+        "lib.py",
     ],
 )
 
