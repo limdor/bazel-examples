@@ -1,5 +1,16 @@
+######################
+## Windows specific ##
+######################
+
 # Required by rules_python starting with version 2.0.0
 startup --windows_enable_symlinks
+
+#####################
+## Python specific ##
+#####################
+
+# Disable automatic creation of __init__.py files in every output tree folder that contains Python code
+build --incompatible_default_to_explicit_init_py
 
 #############################
 ## Terminal output options ##

@@ -1,4 +1,4 @@
-from my_lib import sum
+from lib import sum
 
 if __name__ == '__main__':
     test_pass = sum(5, 7) == 12
