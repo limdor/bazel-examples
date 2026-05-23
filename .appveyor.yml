@@ -1,6 +1,6 @@
 image:
-  - Ubuntu2004
   - Ubuntu2204
+  - Ubuntu2404
   - Visual Studio 2019
   - Visual Studio 2022
 
@@ -14,8 +14,8 @@ for:
 -
   matrix:
     only:
-      - image: Ubuntu2004
       - image: Ubuntu2204
+      - image: Ubuntu2404
   environment:
     BAZELISK_BINARY: bazelisk-linux-amd64
     BAZEL_BINARY: bazel
