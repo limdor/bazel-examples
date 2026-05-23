@@ -56,6 +56,16 @@ In this example we have declared 3 targets. A library, an application and a test
 
   `deps` like for the binary, is the list of libraries that your test depends on.
 
+## Additional configuration
+
+To have a good experience with Bazel and Python, the flag `--incompatible_default_to_explicit_init_py` needs to be set in the `.bazelrc` file.
+Otherwise, Bazel will automatically create `__init__.py` files in ever single folder of the output tree that contains Python code.
+This might lead to unexpected behavior and importing problems.
+The recomendation is that if you need empty `__init__.py` files in the source code, you just add them on your own.
+
+If you are on Windows and you use rules_python >= 2.0, you will have to also set `--windows_enable_symlinks` to enable symbolic links, otherwise Python in Bazel will not work.
+Additionally, Windows need to be in [Developer Mode](https://learn.microsoft.com/en-us/windows/advanced-settings/developer-mode) otherwise it is not possible to create symbolic links.
+
 ## How to try it out
 
 To run the application you call:
