@@ -29,7 +29,7 @@ tasks:
   ubuntu2404:
     <<: *common
     <<: *unix_run_targets
-  centos7_java11_devtoolset10:
+  rockylinux8_java11_devtoolset10:
     <<: *common
     <<: *unix_run_targets
   debian11:
