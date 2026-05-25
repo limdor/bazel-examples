@@ -19,8 +19,6 @@ load("@rules_cc//cc/toolchains:cc_toolchain.bzl", "cc_toolchain")
 load(":utils.bzl", "semicolon_separated")
 load(":windows_cc_toolchain_config.bzl", "cc_toolchain_config")
 
-package(default_visibility = ["//visibility:public"])
-
 cc_library(name = "empty_lib")
 
 # Label flag for extra libraries to be linked into every binary.
