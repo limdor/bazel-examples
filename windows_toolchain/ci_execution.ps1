@@ -15,7 +15,7 @@ if ($IsWindows) {
         bazel run //:hello_world
     }
     else {
-        Write-Host "Skipping 'windows_toolchain' if the image is not having Visual Studio 2019"
+        Write-Host "Skipping 'windows_toolchain' if the image is not having Visual Studio 2022"
     }
 }
 else {
