@@ -18,8 +18,6 @@ load("@rules_cc//cc:cc_library.bzl", "cc_library")
 load("@rules_cc//cc/toolchains:cc_toolchain.bzl", "cc_toolchain")
 load(":cc_toolchain_config.bzl", "cc_toolchain_config")
 
-package(default_visibility = ["//visibility:public"])
-
 licenses(["notice"])  # Apache 2.0
 
 cc_library(name = "empty_lib")

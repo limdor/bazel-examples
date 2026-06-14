@@ -1,11 +1,11 @@
 image:
   - Ubuntu2204
   - Ubuntu2404
-  - Visual Studio 2019
   - Visual Studio 2022
+  - Visual Studio 2026
 
 environment:
-  USE_BAZEL_VERSION: 9.1.0
+  USE_BAZEL_VERSION: 9.1.1
   BAZELISK_VERSION: 1.29.0
   VCVARSALL: x64
   platform: "x64"
@@ -22,19 +22,19 @@ for:
 -
   matrix:
     only:
-      - image: Visual Studio 2019
+      - image: Visual Studio 2022
   environment:
-    VCVARSALLPATH: C:\"Program Files (x86)\Microsoft Visual Studio"\2019\Community\VC\Auxiliary\Build\vcvarsall.bat
-    GYP_MSVS_VERSION: 2019
+    VCVARSALLPATH: C:\"Program Files\Microsoft Visual Studio"\2022\Community\VC\Auxiliary\Build\vcvarsall.bat
+    GYP_MSVS_VERSION: 2022
     BAZELISK_BINARY: bazelisk-windows-amd64.exe
     BAZEL_BINARY: bazel.exe
 -
   matrix:
     only:
-      - image: Visual Studio 2022
+      - image: Visual Studio 2026
   environment:
-    VCVARSALLPATH: C:\"Program Files\Microsoft Visual Studio"\2022\Community\VC\Auxiliary\Build\vcvarsall.bat
-    GYP_MSVS_VERSION: 2022
+    VCVARSALLPATH: C:\"Program Files\Microsoft Visual Studio"\18\Community\VC\Auxiliary\Build\vcvarsall.bat
+    GYP_MSVS_VERSION: 2026
     BAZELISK_BINARY: bazelisk-windows-amd64.exe
     BAZEL_BINARY: bazel.exe
 
