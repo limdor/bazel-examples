@@ -8,10 +8,7 @@ windows_run_targets: &windows_run_targets
   run_targets:
     - "//:hello_world_everyone"
     - "//:hello_world_code_dive"
-    # Buildifier rules do not work on Windows and Bzlmod
-    # https://github.com/keith/buildifier-prebuilt/issues/99
-    # https://github.com/bazelbuild/bazel-central-registry/issues/380
-    # - "//:buildifier"
+    - "//:buildifier"
 
 unix_run_targets: &unix_run_targets
   run_targets:
