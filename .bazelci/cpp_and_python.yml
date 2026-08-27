@@ -3,14 +3,6 @@ common: &common
   working_directory: .
   build_targets:
     - "//..."
-
-windows_run_targets: &windows_run_targets
-  run_targets:
-    - "//:hello_world_everyone"
-    - "//:hello_world_code_dive"
-    - "//:buildifier"
-
-unix_run_targets: &unix_run_targets
   run_targets:
     - "//:hello_world_everyone"
     - "//:hello_world_code_dive"
@@ -19,28 +11,19 @@ unix_run_targets: &unix_run_targets
 tasks:
   ubuntu2004:
     <<: *common
-    <<: *unix_run_targets
   ubuntu2204:
     <<: *common
-    <<: *unix_run_targets
   ubuntu2404:
     <<: *common
-    <<: *unix_run_targets
   rockylinux8_java11_devtoolset10:
     <<: *common
-    <<: *unix_run_targets
   debian11:
     <<: *common
-    <<: *unix_run_targets
   debian12:
     <<: *common
-    <<: *unix_run_targets
   debian13:
     <<: *common
-    <<: *unix_run_targets
   macos:
     <<: *common
-    <<: *unix_run_targets
   windows:
     <<: *common
-    <<: *windows_run_targets
